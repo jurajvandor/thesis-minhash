@@ -19,7 +19,7 @@ public class PermutationGenerator {
         this.numberOfVectors = numberOfVectors;
     }
 
-    //TEST
+    //TODO delete test
     public static void main(String[] args){
         PermutationGenerator g = new PermutationGenerator(20, 20);
         try {
@@ -56,7 +56,7 @@ public class PermutationGenerator {
             return listOfVectors;
         } catch (IOException e){
             throw new PermutationException("data for permutation with" + numberOfVectors + " vectors of size "
-                    + sizeOfVector + " could not be loaded (is another program using this file?");
+                    + sizeOfVector + " could not be loaded (is another program using this file?", e);
         }
     }
 
@@ -89,7 +89,7 @@ public class PermutationGenerator {
             }
             writer.close();
         }catch (IOException e){
-            throw new PermutationException("file " + getPathUri() + " could not be created or overwritten");
+            throw new PermutationException("file " + getPathUri() + " could not be created or overwritten", e);
         }
         return listOfVectors;
     }
