@@ -9,5 +9,8 @@
         <module name="thesis-minhash" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="thesis-minhash" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
