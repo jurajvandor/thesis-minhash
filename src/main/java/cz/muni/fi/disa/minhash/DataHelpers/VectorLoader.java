@@ -1,9 +1,9 @@
-package cz.muni.fi.disa.minhash;
+package cz.muni.fi.disa.minhash.DataHelpers;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class VectorLoader implements Iterable<VectorData>, Closeable{
@@ -11,7 +11,7 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
     public static void main(String[] args) throws Exception{
         try {
             VectorLoader loader = new VectorLoader("features-images-profiset100K.data", " ", 4096);
-            List<VectorData> d = loader.loadAllVectors();
+            List<VectorData> d = loader.loadAllVectorsToLinkedList();
             for (VectorData data: d) {
                 System.out.append(data.toString());
                 System.out.append("\n");
@@ -27,7 +27,7 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
     private String delimiter;
     private int vectorSize;
 
-    public VectorLoader(String path, String delimiter, int vectorSize) throws PermutationException{
+    public VectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException{
         this.delimiter = delimiter;
         this.path = path;
         this.vectorSize = vectorSize;
@@ -40,7 +40,7 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
             InputStream in = new FileInputStream(file);
             reader = new BufferedReader(new InputStreamReader(in));
         }catch (IOException e){
-            throw new PermutationException("file " + path + " could not be loaded", e);
+            throw new VectorLoaderException("file " + path + " could not be loaded", e);
         }
         iterator = new CustomIterator(this);
     }
@@ -99,14 +99,24 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
         }
     }
 
-    public List<VectorData> loadAllVectors(){
+    public LinkedList<VectorData> loadAllVectorsToLinkedList(){
         if (iterator.nextCalled)
             return null;
-        List<VectorData> list = new ArrayList<>();
+        LinkedList<VectorData> list = new LinkedList<>();
         for (VectorData data : this) {
             list.add(data);
         }
         return list;
+    }
+
+    public ArrayList<VectorData> loadAllVectorsToArrayList(){
+        if (iterator.nextCalled)
+            return null;
+        ArrayList<VectorData> arrayList = new ArrayList<>();
+        for (VectorData data : this){
+            arrayList.add(data);
+        }
+        return arrayList;
     }
 
     @Override

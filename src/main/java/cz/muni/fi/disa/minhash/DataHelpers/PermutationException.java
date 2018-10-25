@@ -1,4 +1,4 @@
-package cz.muni.fi.disa.minhash;
+package cz.muni.fi.disa.minhash.DataHelpers;
 
 import java.io.IOException;
 
