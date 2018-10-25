@@ -6,13 +6,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VectorLoader implements Iterable<VectorData>, Closeable{
+public class BooleanVectorLoader implements Iterable<BooleanVectorData>, Closeable{
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
-            VectorLoader loader = new VectorLoader("features-images-profiset100K.data", " ", 4096);
-            List<VectorData> d = loader.loadAllVectorsToLinkedList();
-            for (VectorData data: d) {
+            BooleanVectorLoader loader = new BooleanVectorLoader("features-images-profiset100K.data", " ", 4096);
+            List<BooleanVectorData> d = loader.loadAllVectorsToLinkedList();
+            for (BooleanVectorData data: d) {
                 System.out.append(data.toString());
                 System.out.append("\n");
             }
@@ -27,7 +27,7 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
     private String delimiter;
     private int vectorSize;
 
-    public VectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException{
+    public BooleanVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException{
         this.delimiter = delimiter;
         this.path = path;
         this.vectorSize = vectorSize;
@@ -45,14 +45,14 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
         iterator = new CustomIterator(this);
     }
 
-    class CustomIterator implements Iterator<VectorData>{
+    class CustomIterator implements Iterator<BooleanVectorData>{
         private boolean hasNext = true;
         private String nextLineId;
         private String nextLineData;
-        private VectorLoader loader;
+        private BooleanVectorLoader loader;
         private boolean nextCalled = false;
 
-        CustomIterator(VectorLoader loader) {
+        CustomIterator(BooleanVectorLoader loader) {
             this.loader = loader;
             try {
                 nextLineId = loader.reader.readLine();
@@ -74,7 +74,7 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
         }
 
         @Override
-        public VectorData next() {
+        public BooleanVectorData next() {
             nextCalled = true;
             boolean[] vector = new boolean[vectorSize];
             String id = nextLineId.split(" ")[2];
@@ -93,27 +93,27 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
                 }
             } catch (IOException e) {
                 hasNext = false;
-                return new VectorData(vector, id);
+                return new BooleanVectorData(vector, id);
             }
-            return new VectorData(vector, id);
+            return new BooleanVectorData(vector, id);
         }
     }
 
-    public LinkedList<VectorData> loadAllVectorsToLinkedList(){
+    public LinkedList<BooleanVectorData> loadAllVectorsToLinkedList(){
         if (iterator.nextCalled)
             return null;
-        LinkedList<VectorData> list = new LinkedList<>();
-        for (VectorData data : this) {
+        LinkedList<BooleanVectorData> list = new LinkedList<>();
+        for (BooleanVectorData data : this) {
             list.add(data);
         }
         return list;
     }
 
-    public ArrayList<VectorData> loadAllVectorsToArrayList(){
+    public ArrayList<BooleanVectorData> loadAllVectorsToArrayList(){
         if (iterator.nextCalled)
             return null;
-        ArrayList<VectorData> arrayList = new ArrayList<>();
-        for (VectorData data : this){
+        ArrayList<BooleanVectorData> arrayList = new ArrayList<>();
+        for (BooleanVectorData data : this){
             arrayList.add(data);
         }
         return arrayList;
@@ -131,7 +131,7 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
     }
 
     @Override
-    public Iterator<VectorData> iterator() {
+    public Iterator<BooleanVectorData> iterator() {
         return iterator;
     }
 }
