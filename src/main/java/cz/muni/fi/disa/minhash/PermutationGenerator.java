@@ -20,13 +20,13 @@ public class PermutationGenerator {
     }
 
     //TODO delete test
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
         PermutationGenerator g = new PermutationGenerator(20, 20);
         try {
             g.loadPermutations();
         }
         catch (Exception e){
-
+            throw new Exception(e);
         }
     }
 
@@ -108,7 +108,7 @@ public class PermutationGenerator {
     }
 
     private String getPathUri(){
-        return "./permutations_" + sizeOfVector + "_" + numberOfVectors;
+        return "./permutations_" + sizeOfVector + "_" + numberOfVectors + ".perm";
     }
 
 }

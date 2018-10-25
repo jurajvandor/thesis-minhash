@@ -1,6 +1,7 @@
 package cz.muni.fi.disa.minhash;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +10,7 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
-            VectorLoader loader = new VectorLoader("features-images-profiset100K.data", " ");
+            VectorLoader loader = new VectorLoader("features-images-profiset100K.data", " ", 4096);
             List<VectorData> d = loader.loadAllVectors();
             for (VectorData data: d) {
                 System.out.append(data.toString());
@@ -24,10 +25,12 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
     private String path;
     private BufferedReader reader = null;
     private String delimiter;
+    private int vectorSize;
 
-    public VectorLoader(String path, String delimiter) throws PermutationException{
+    public VectorLoader(String path, String delimiter, int vectorSize) throws PermutationException{
         this.delimiter = delimiter;
         this.path = path;
+        this.vectorSize = vectorSize;
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(path).getFile());
         if (!file.exists()) {
@@ -73,11 +76,11 @@ public class VectorLoader implements Iterable<VectorData>, Closeable{
         @Override
         public VectorData next() {
             nextCalled = true;
-            List<Boolean> vector = new ArrayList<>();
+            boolean[] vector = new boolean[vectorSize];
             String id = nextLineId.split(" ")[2];
             String[] split = nextLineData.split(delimiter);
-            for (String num : split) {
-                vector.add(!new Double(num).equals(0.0));
+            for (int i = 0; i < vectorSize; i++) {
+                vector[i] = !new Double(split[i]).equals(0.0);
             }
             try {
                 nextLineId = loader.reader.readLine();

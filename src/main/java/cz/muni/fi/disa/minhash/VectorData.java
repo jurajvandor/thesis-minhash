@@ -1,22 +1,22 @@
 package cz.muni.fi.disa.minhash;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class VectorData {
-    private List<Boolean> vector;
+    private boolean[] vector;
     private String id;
 
-    public VectorData(List<Boolean> vector, String id){
+    public VectorData(boolean[] vector, String id){
         this.vector = vector;
         this.id = id;
     }
 
-    public List<Boolean> getVector() {
+    public boolean[] getVector() {
         return vector;
     }
 
-    public void setVector(List<Boolean> vector) {
+    public void setVector(boolean[] vector) {
         this.vector = vector;
     }
 
@@ -33,7 +33,7 @@ public class VectorData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VectorData that = (VectorData) o;
-        return Objects.equals(vector, that.vector) &&
+        return Arrays.equals(vector, that.vector) &&
                 Objects.equals(id, that.id);
     }
 
