@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class PermutationGenerator {
 
@@ -30,11 +31,19 @@ public class PermutationGenerator {
         }
     }
 
+    public int getSizeOfVector() {
+        return sizeOfVector;
+    }
+
+    public int getNumberOfVectors() {
+        return numberOfVectors;
+    }
+
     /**
      * loads permutations from file, if file doesn't exist, new permutations are created and written to file
      * @return loaded permutations
      */
-    public List<List<Integer>> loadPermutations() throws PermutationException{
+    public int[][] loadPermutations() throws PermutationException{
         File file = new File(getPathUri());
         if (!file.exists()) {
             return createPermutations();
@@ -43,17 +52,20 @@ public class PermutationGenerator {
             InputStream in = Files.newInputStream(Paths.get(getPathUri()));
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
-            List<List<Integer>> listOfVectors = new ArrayList<>();
+            int[][] matrix = new int[numberOfVectors][];
+            int i = 0;
             while ((line = reader.readLine()) != null) {
-                if (!line.isEmpty())
-                    listOfVectors.add(parseLine(line));
+                if (!line.isEmpty()){
+                    matrix[i] = parseLine(line);
+                    i++;
+                }
             }
-            if (listOfVectors.size() != numberOfVectors){
+            if (i != numberOfVectors){
                 throw new PermutationException("data for permutation with" + numberOfVectors + " vectors of size "
                         + sizeOfVector + " contains different number of permutations");
             }
             reader.close();
-            return listOfVectors;
+            return matrix;
         } catch (IOException e){
             throw new PermutationException("data for permutation with" + numberOfVectors + " vectors of size "
                     + sizeOfVector + " could not be loaded (is another program using this file?", e);
@@ -64,15 +76,18 @@ public class PermutationGenerator {
      * CAREFUL OVERWRITES EXISTING PERMUTATIONS
      * @return new permutations also written to file
      */
-    public List<List<Integer>> createPermutations() throws PermutationException{
-        List<List<Integer>> listOfVectors = new ArrayList<>();
+    public int[][] createPermutations() throws PermutationException{
+        int [][] matrix = new int[numberOfVectors][sizeOfVector];
         for (int i = 0; i < numberOfVectors; i++){
             List<Integer> list = new ArrayList<>();
             for (int j = 0; j < sizeOfVector; j++){
                 list.add(j);
             }
             Collections.shuffle(list);
-            listOfVectors.add(list);
+            // since java cant convert to primitive array and we need that shuffle we have to use List
+            // time complexity of this code doesn't matter anyway so we just convert to int array manually
+            for (int j = 0; j < sizeOfVector; j++)
+                matrix[i][j] = list.get(j);
         }
         try {
             OutputStream out = Files.newOutputStream(Paths.get(getPathUri()));
@@ -82,7 +97,7 @@ public class PermutationGenerator {
                 for (int j = 0; j < sizeOfVector; j++){
                     if (j != 0)
                         s.append(" ");
-                    s.append(listOfVectors.get(i).get(j));
+                    s.append(matrix[i][j]);
                 }
                 writer.write(s.toString());
                 writer.newLine();
@@ -91,24 +106,39 @@ public class PermutationGenerator {
         }catch (IOException e){
             throw new PermutationException("file " + getPathUri() + " could not be created or overwritten", e);
         }
-        return listOfVectors;
+        return matrix;
     }
 
-    private List<Integer> parseLine(String line) throws PermutationException{
-        List<Integer> list = new ArrayList<>();
+    private int[] parseLine(String line) throws PermutationException{
+        int[] vector = new int[sizeOfVector];
         String[] split = line.split(" ");
+        int i = 0;
         for (String value : split) {
-            list.add(new Integer(value));
+            vector[i] = Integer.parseInt(value);
+            i++;
         }
-        if (list.size() != sizeOfVector){
+        if (i != sizeOfVector){
             throw new PermutationException("data for permutation with" + numberOfVectors + " vectors of size "
                     + sizeOfVector + " contains permutation vector of different size");
         }
-        return list;
+        return vector;
     }
 
-    private String getPathUri(){
+    public String getPathUri(){
         return "./permutations_" + sizeOfVector + "_" + numberOfVectors + ".perm";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PermutationGenerator that = (PermutationGenerator) o;
+        return sizeOfVector == that.sizeOfVector &&
+                numberOfVectors == that.numberOfVectors;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sizeOfVector, numberOfVectors);
+    }
 }

@@ -1,4 +1,4 @@
 package cz.muni.fi.disa.minhash.MinHash;
 
-public class AccuracyComputer {
+public class AccuracyCounter {
 }
