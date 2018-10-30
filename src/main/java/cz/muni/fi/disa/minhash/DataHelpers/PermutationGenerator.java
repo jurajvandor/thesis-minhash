@@ -125,7 +125,7 @@ public class PermutationGenerator {
     }
 
     public String getPathUri(){
-        return "./permutations_" + sizeOfVector + "_" + numberOfVectors + ".perm";
+        return "data_files/permutations_" + sizeOfVector + "_" + numberOfVectors + ".perm";
     }
 
     @Override

@@ -1,6 +1,7 @@
 package cz.muni.fi.disa.minhash.DataHelpers;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -19,7 +20,7 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
         this.path = path;
         this.vectorSize = vectorSize;
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(path).getFile());
+        File file = new File(getPath());
         if (!file.exists()) {
             return;
         }

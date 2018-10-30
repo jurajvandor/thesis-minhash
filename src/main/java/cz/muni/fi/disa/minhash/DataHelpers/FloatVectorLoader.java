@@ -1,13 +1,12 @@
 package cz.muni.fi.disa.minhash.DataHelpers;
 
-import java.io.IOException;
 import java.util.List;
 
 public class FloatVectorLoader extends AbstractVectorLoader<FloatVectorData> {
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
-            FloatVectorLoader loader = new FloatVectorLoader("features-images-profiset100K.data", " ", 4096);
+            FloatVectorLoader loader = new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             List<FloatVectorData> d = loader.loadAllVectorsToLinkedList();
             for (FloatVectorData data: d) {
                 System.out.append(data.toString());

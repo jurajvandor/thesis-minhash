@@ -6,7 +6,7 @@ public class BooleanVectorLoader extends AbstractVectorLoader<BooleanVectorData>
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
-            BooleanVectorLoader loader = new BooleanVectorLoader("features-images-profiset100K.data", " ", 4096);
+            BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             List<BooleanVectorData> d = loader.loadAllVectorsToLinkedList();
             for (BooleanVectorData data: d) {
                 System.out.append(data.toString());

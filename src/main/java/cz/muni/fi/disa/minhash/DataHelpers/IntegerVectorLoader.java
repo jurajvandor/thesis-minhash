@@ -1,17 +1,19 @@
 package cz.muni.fi.disa.minhash.DataHelpers;
 
+import java.lang.instrument.Instrumentation;
 import java.util.List;
 
-public class IntegerVectorLoader extends AbstractVectorLoader<FloatVectorData> {
+public class IntegerVectorLoader extends AbstractVectorLoader<IntegerVectorData> {
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
-            IntegerVectorLoader loader = new IntegerVectorLoader("features-images-profiset100K.data", " ", 4096);
-            List<FloatVectorData> d = loader.loadAllVectorsToLinkedList();
-            for (FloatVectorData data: d) {
+            IntegerVectorLoader loader = new IntegerVectorLoader("data_files/features-images-profiset100K_minhash_20.data", " ", 20);
+            List<IntegerVectorData> d = loader.loadAllVectorsToLinkedList();
+            for (IntegerVectorData data: d) {
                 System.out.append(data.toString());
                 System.out.append("\n");
             }
+            System.out.print(d.size());
         }catch (Exception e){
             throw new Exception(e);
         }
