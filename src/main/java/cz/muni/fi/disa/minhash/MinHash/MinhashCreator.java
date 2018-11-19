@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class MinhashCreator {
 
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MinhashCreator creator = new MinhashCreator(new BooleanVectorLoader("data_files/original-2folds_1-test.data", ",", 4096), new PermutationGenerator(4096, 100));
+        MinhashCreator creator = new MinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), new PermutationGenerator(4096, 4096));
         creator.createMinhashes();
     }
 
