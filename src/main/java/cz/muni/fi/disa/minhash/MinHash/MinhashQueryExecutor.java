@@ -14,8 +14,8 @@ public class MinhashQueryExecutor {
             try {
                 IntegerVectorLoader loader = new IntegerVectorLoader("data_files/features-images-profiset100K_minhash_4096.data", " ", 4096);
                 MinhashQueryExecutor executor = new MinhashQueryExecutor(loader);
-                SortedSet<QueryResult> result = executor.findSimilarItems(20, "0000000002");
-                for (QueryResult item : result)
+                SortedSet<QueryResultItem> result = executor.findSimilarItems(20, "0000000002");
+                for (QueryResultItem item : result)
                     System.out.println(item.getSimilarity() + " " + item.getId());
             }catch (Exception e){
                 throw new Exception(e);
@@ -28,15 +28,15 @@ public class MinhashQueryExecutor {
         data = loader.loadAllVectorsToArrayList();
     }
 
-    public SortedSet<QueryResult> findSimilarItems(int numberOfRequestedItems, String idOfQueryItem){
+    public SortedSet<QueryResultItem> findSimilarItems(int numberOfRequestedItems, String idOfQueryItem){
         Optional<IntegerVectorData> query = data.stream().findFirst().filter(x -> x.getId().equals(idOfQueryItem));
         return query.isPresent() ? findSimilarItems(numberOfRequestedItems, query.get().getVector()) : null;
     }
 
-    public SortedSet<QueryResult> findSimilarItems(int numberOfRequestedItems, int[] queryVector){
-        TreeSet<QueryResult> result = new TreeSet<>();
+    public SortedSet<QueryResultItem> findSimilarItems(int numberOfRequestedItems, int[] queryVector){
+        TreeSet<QueryResultItem> result = new TreeSet<>();
         for (IntegerVectorData item : data){
-            result.add(new QueryResult(item.getId(), compare(queryVector, item.getVector())));
+            result.add(new QueryResultItem(item.getId(), compare(queryVector, item.getVector())));
             if (result.size() > numberOfRequestedItems)
                 result.pollFirst();
         }
