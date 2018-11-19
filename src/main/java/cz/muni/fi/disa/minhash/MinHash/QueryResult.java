@@ -2,11 +2,11 @@ package cz.muni.fi.disa.minhash.MinHash;
 
 import java.util.Objects;
 
-public class QueryResult implements Comparable<QueryResult>{
+public class QueryResultItem implements Comparable<QueryResultItem>{
     private String id;
     private float similarity;
 
-    public QueryResult(String id, float similarity){
+    public QueryResultItem(String id, float similarity){
         this.id = id;
         this.similarity = similarity;
     }
@@ -30,8 +30,8 @@ public class QueryResult implements Comparable<QueryResult>{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof QueryResult)) return false;
-        QueryResult that = (QueryResult) o;
+        if (!(o instanceof QueryResultItem)) return false;
+        QueryResultItem that = (QueryResultItem) o;
         return Objects.equals(getId(), that.getId()) &&
                 getSimilarity() == that.getSimilarity();
     }
@@ -43,7 +43,7 @@ public class QueryResult implements Comparable<QueryResult>{
 
 
     @Override
-    public int compareTo(QueryResult o) {
+    public int compareTo(QueryResultItem o) {
         if (similarity > o.similarity)
             return 1;
         return -1;
