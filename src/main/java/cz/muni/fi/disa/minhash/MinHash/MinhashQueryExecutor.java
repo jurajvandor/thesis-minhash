@@ -2,10 +2,8 @@ package cz.muni.fi.disa.minhash.MinHash;
 
 import cz.muni.fi.disa.minhash.DataHelpers.IntegerVectorData;
 import cz.muni.fi.disa.minhash.DataHelpers.IntegerVectorLoader;
-import sun.awt.util.IdentityArrayList;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MinhashQueryExecutor {
 

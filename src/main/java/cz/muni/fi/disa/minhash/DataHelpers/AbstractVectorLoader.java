@@ -1,11 +1,9 @@
 package cz.muni.fi.disa.minhash.DataHelpers;
 
 import java.io.*;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
 

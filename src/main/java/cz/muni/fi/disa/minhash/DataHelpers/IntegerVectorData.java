@@ -1,6 +1,5 @@
 package cz.muni.fi.disa.minhash.DataHelpers;
 
-
 import java.util.Arrays;
 import java.util.Objects;
 

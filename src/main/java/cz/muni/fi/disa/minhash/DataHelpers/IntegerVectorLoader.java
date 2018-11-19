@@ -1,6 +1,5 @@
 package cz.muni.fi.disa.minhash.DataHelpers;
 
-import java.lang.instrument.Instrumentation;
 import java.util.List;
 
 public class IntegerVectorLoader extends AbstractVectorLoader<IntegerVectorData> {

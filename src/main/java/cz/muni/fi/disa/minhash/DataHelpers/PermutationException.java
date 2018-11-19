@@ -1,7 +1,5 @@
 package cz.muni.fi.disa.minhash.DataHelpers;
 
-import java.io.IOException;
-
 public class PermutationException extends Exception {
     PermutationException(String message){
         super(message);
