@@ -1,22 +1,22 @@
-package cz.muni.fi.disa.minhash.DataHelpers;
+package cz.muni.fi.disa.minhash.DataHolders;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-public class IntegerVectorData {
-    private int[] vector;
+public class BooleanVectorData {
+    private boolean[] vector;
     private String id;
 
-    public IntegerVectorData(int[] vector, String id){
+    public BooleanVectorData(boolean[] vector, String id){
         this.vector = vector;
         this.id = id;
     }
 
-    public int[] getVector() {
+    public boolean[] getVector() {
         return vector;
     }
 
-    public void setVector(int[] vector) {
+    public void setVector(boolean[] vector) {
         this.vector = vector;
     }
 
@@ -32,7 +32,7 @@ public class IntegerVectorData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IntegerVectorData that = (IntegerVectorData) o;
+        BooleanVectorData that = (BooleanVectorData) o;
         return Arrays.equals(vector, that.vector) &&
                 Objects.equals(id, that.id);
     }
@@ -44,7 +44,7 @@ public class IntegerVectorData {
 
     @Override
     public String toString() {
-        return "IntegerVectorData{" +
+        return "BooleanVectorData{" +
                 ", id='" + id + '\'' +
                 "vector=" + vector +
                 '}';

@@ -1,4 +1,4 @@
-package cz.muni.fi.disa.minhash.DataHelpers;
+package cz.muni.fi.disa.minhash.DataHolders;
 
 import java.util.List;
 

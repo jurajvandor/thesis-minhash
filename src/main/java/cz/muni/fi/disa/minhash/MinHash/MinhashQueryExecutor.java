@@ -1,7 +1,7 @@
 package cz.muni.fi.disa.minhash.MinHash;
 
-import cz.muni.fi.disa.minhash.DataHelpers.IntegerVectorData;
-import cz.muni.fi.disa.minhash.DataHelpers.IntegerVectorLoader;
+import cz.muni.fi.disa.minhash.DataHolders.IntegerVectorData;
+import cz.muni.fi.disa.minhash.DataHolders.IntegerVectorLoader;
 
 import java.util.*;
 
@@ -14,7 +14,7 @@ public class MinhashQueryExecutor {
             try {
                 IntegerVectorLoader loader = new IntegerVectorLoader("data_files/features-images-profiset100K_minhash_4096.data", " ", 4096);
                 MinhashQueryExecutor executor = new MinhashQueryExecutor(loader);
-                SortedSet<QueryResultItem> result = executor.findSimilarItems(20, "0000000002");
+                SortedSet<QueryResultItem> result = executor.findSimilarItems(50, "0000000002");
                 for (QueryResultItem item : result)
                     System.out.println(item.getSimilarity() + " " + item.getId());
             }catch (Exception e){
@@ -40,7 +40,6 @@ public class MinhashQueryExecutor {
             if (result.size() > numberOfRequestedItems)
                 result.pollFirst();
         }
-
         return result;
     }
 

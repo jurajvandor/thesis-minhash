@@ -1,43 +1,44 @@
-package cz.muni.fi.disa.minhash.DataHelpers;
+package cz.muni.fi.disa.minhash.DataHolders;
 
 import java.util.List;
 
-public class FloatVectorLoader extends AbstractVectorLoader<FloatVectorData> {
+public class IntegerVectorLoader extends AbstractVectorLoader<IntegerVectorData> {
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
-            FloatVectorLoader loader = new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
-            List<FloatVectorData> d = loader.loadAllVectorsToLinkedList();
-            for (FloatVectorData data: d) {
+            IntegerVectorLoader loader = new IntegerVectorLoader("data_files/features-images-profiset100K_minhash_1000.data", " ", 1000);
+            List<IntegerVectorData> d = loader.loadAllVectorsToLinkedList();
+            for (IntegerVectorData data: d) {
                 System.out.append(data.toString());
                 System.out.append("\n");
             }
+            System.out.print(d.size());
         }catch (Exception e){
             throw new Exception(e);
         }
     }
-    public FloatVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException {
+    public IntegerVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException {
         super(path, delimiter, vectorSize);
         this.iterator = new CustomIterator(this);
     }
 
     private class CustomIterator extends AbstractVectorLoader.CustomIterator {
 
-        public CustomIterator(FloatVectorLoader loader){
+        public CustomIterator(IntegerVectorLoader loader){
             super(loader);
         }
 
         @Override
         public Object next() {
             this.nextCalled = true;
-            float[] vector = new float[vectorSize];
+            int[] vector = new int[vectorSize];
             String id = nextLineId.split(" ")[2];
             String[] split = nextLineData.split(delimiter);
             for (int i = 0; i < vectorSize; i++) {
-                vector[i] = Float.parseFloat(split[i]);
+                vector[i] = Integer.parseInt(split[i]);
             }
             setNextLine();
-            return new FloatVectorData(vector, id);
+            return new IntegerVectorData(vector, id);
         }
     }
 }

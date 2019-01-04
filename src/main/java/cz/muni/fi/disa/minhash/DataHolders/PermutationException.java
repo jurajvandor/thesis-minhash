@@ -1,4 +1,4 @@
-package cz.muni.fi.disa.minhash.DataHelpers;
+package cz.muni.fi.disa.minhash.DataHolders;
 
 public class PermutationException extends Exception {
     PermutationException(String message){

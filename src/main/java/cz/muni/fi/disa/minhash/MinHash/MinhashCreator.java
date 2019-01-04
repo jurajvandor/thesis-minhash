@@ -1,6 +1,6 @@
 package cz.muni.fi.disa.minhash.MinHash;
 
-import cz.muni.fi.disa.minhash.DataHelpers.*;
+import cz.muni.fi.disa.minhash.DataHolders.*;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
