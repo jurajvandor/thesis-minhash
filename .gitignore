@@ -19,7 +19,14 @@
 *.tar.gz
 *.rar
 
-#large data file
+# Generated permutations
+*.perm
+
+# Generated minhashes
+*_minhash_*.data
+
+
+# Large data file
 *features-images-profiset100K.data
 *objects-annotations-specific-coords_normPOS.data
 
