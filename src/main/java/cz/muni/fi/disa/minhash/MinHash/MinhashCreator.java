@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class MinhashCreator {
 
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MinhashCreator creator = new MinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), new PermutationGenerator(4096, 4096));
+        MinhashCreator creator = new MinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), new PermutationGenerator(4096, 2048));
         creator.createMinhashes();
     }
 
@@ -48,7 +48,7 @@ public class MinhashCreator {
         try {
             OutputStream out = Files.newOutputStream(Paths.get(path));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-            int permutations[][] = generator.loadPermutations();
+            int[][] permutations = generator.loadPermutations();
             for (BooleanVectorData data : loader) {
                 writer.write("#objectKey messif.objects.keys.AbstractObjectKey " + data.getId());
                 writer.newLine();

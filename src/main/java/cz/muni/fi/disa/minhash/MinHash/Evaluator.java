@@ -1,11 +1,13 @@
 package cz.muni.fi.disa.minhash.MinHash;
 
-public class AccuracyCounter {
+public class Evaluator {
     private String originalDataFile;
     private String minahshFile;
 
-    AccuracyCounter(String originalDataFile, String minhashFile){
+    Evaluator(String originalDataFile, String minhashFile){
         this.minahshFile = minhashFile;
         this.originalDataFile = originalDataFile;
     }
+    
+    //TODO
 }
