@@ -17,7 +17,6 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
         this.delimiter = delimiter;
         this.path = path;
         this.vectorSize = vectorSize;
-        ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(getPath());
         if (!file.exists()) {
             return;
@@ -39,18 +38,7 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
 
         CustomIterator(AbstractVectorLoader<T> loader) {
             this.loader = loader;
-            try {
-                nextLineId = loader.reader.readLine();
-                if (nextLineId == null || nextLineId.equals(""))
-                    hasNext = false;
-                nextLineData = loader.reader.readLine();
-                if (nextLineData == null || nextLineData.equals(""))
-                    hasNext = false;
-            }catch (IOException e){
-                hasNext = false;
-                nextLineId = null;
-                nextLineData = null;
-            }
+            setNextLine();
         }
 
         @Override
