@@ -4,15 +4,12 @@ import cz.muni.fi.disa.minhash.DataHolders.FloatVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.FloatVectorLoader;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class ReferenceQueryExecutor {
 
     private FloatVectorLoader loader;
-    private ArrayList<FloatVectorData> data;
+    private List<FloatVectorData> data;
 
     public static void main(String[] args) throws Exception{
         try {
@@ -30,7 +27,7 @@ public class ReferenceQueryExecutor {
 
     public ReferenceQueryExecutor(FloatVectorLoader loader){
         this.loader = loader;
-        data = loader.loadAllVectorsToArrayList();
+        data = loader.loadAllVectorsToList();
     }
 
     public Pair<SortedSet<QueryResultItem>, Long> findSimilarItems(int numberOfRequestedItems, String idOfQueryItem){

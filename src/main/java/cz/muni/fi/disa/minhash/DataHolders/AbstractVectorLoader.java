@@ -1,9 +1,9 @@
 package cz.muni.fi.disa.minhash.DataHolders;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
 
@@ -12,6 +12,7 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
     protected BufferedReader reader = null;
     protected String delimiter;
     protected int vectorSize;
+    protected List<T> cache = null;
 
     public AbstractVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException{
         this.delimiter = delimiter;
@@ -62,24 +63,17 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
         }
     }
 
-    public LinkedList<T> loadAllVectorsToLinkedList(){
+    public List<T> loadAllVectorsToList(){
+        if (cache != null)
+            return cache;
         if (iterator.nextCalled)
             return null;
         LinkedList<T> list = new LinkedList<>();
         for (T data : this) {
             list.add(data);
         }
+        cache = list;
         return list;
-    }
-
-    public ArrayList<T> loadAllVectorsToArrayList(){
-        if (iterator.nextCalled)
-            return null;
-        ArrayList<T> arrayList = new ArrayList<>();
-        for (T data : this){
-            arrayList.add(data);
-        }
-        return arrayList;
     }
 
     @Override

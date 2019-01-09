@@ -9,7 +9,7 @@ import java.util.*;
 public class MinhashQueryExecutor {
 
     private IntegerVectorLoader loader;
-    private ArrayList<IntegerVectorData> data;
+    private List<IntegerVectorData> data;
 
     public static void main(String[] args) throws Exception{
             try {
@@ -27,7 +27,7 @@ public class MinhashQueryExecutor {
 
     public MinhashQueryExecutor(IntegerVectorLoader loader){
         this.loader = loader;
-        data = loader.loadAllVectorsToArrayList();
+        data = loader.loadAllVectorsToList();
     }
 
     public Pair<SortedSet<QueryResultItem>, Long> findSimilarItems(int numberOfRequestedItems, String idOfQueryItem){

@@ -8,7 +8,7 @@ public class MovementDataVectorsLoader extends AbstractVectorLoader<MovementData
     public static void main(String[] args) throws Exception{
         try {
             MovementDataVectorsLoader loader = new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";");
-            List<MovementData> d = loader.loadAllVectorsToLinkedList();
+            List<MovementData> d = loader.loadAllVectorsToList();
             for (MovementData data: d) {
                 System.out.append(data.getId());
                 System.out.append("\n");

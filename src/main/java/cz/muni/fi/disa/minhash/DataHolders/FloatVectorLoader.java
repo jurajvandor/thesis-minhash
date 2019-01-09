@@ -7,7 +7,7 @@ public class FloatVectorLoader extends AbstractVectorLoader<FloatVectorData> {
     public static void main(String[] args) throws Exception{
         try {
             FloatVectorLoader loader = new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
-            List<FloatVectorData> d = loader.loadAllVectorsToLinkedList();
+            List<FloatVectorData> d = loader.loadAllVectorsToList();
             for (FloatVectorData data: d) {
                 System.out.append(data.toString());
                 System.out.append("\n");
