@@ -1,7 +1,7 @@
-package cz.muni.fi.disa.minhash.MinHash;
+package cz.muni.fi.disa.minhash.QueryExecutors;
 
-import cz.muni.fi.disa.minhash.DataHolders.IntegerVectorData;
-import cz.muni.fi.disa.minhash.DataHolders.IntegerVectorLoader;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.IntegerVectorData;
+import cz.muni.fi.disa.minhash.DataHolders.Loaders.IntegerVectorLoader;
 import javafx.util.Pair;
 
 import java.util.*;

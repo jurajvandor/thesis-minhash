@@ -1,4 +1,4 @@
-package cz.muni.fi.disa.minhash.MinHash;
+package cz.muni.fi.disa.minhash.QueryExecutors;
 
 import java.util.Objects;
 

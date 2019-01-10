@@ -1,6 +1,8 @@
-package cz.muni.fi.disa.minhash.MinHash;
+package cz.muni.fi.disa.minhash.MinhashCreators;
 
 import cz.muni.fi.disa.minhash.DataHolders.*;
+import cz.muni.fi.disa.minhash.DataHolders.Loaders.BooleanVectorLoader;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -9,17 +11,16 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class MinhashCreator {
-
+public class MovementDataMinhashCreator {
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MinhashCreator creator = new MinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), new PermutationGenerator(4096, 2048));
+        BinaryMappingMinhashCreator creator = new BinaryMappingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), new PermutationGenerator(4096, 2048));
         creator.createMinhashes();
     }
 
     private BooleanVectorLoader loader;
     private PermutationGenerator generator;
 
-    public MinhashCreator(BooleanVectorLoader loader, PermutationGenerator generator){
+    public MovementDataMinhashCreator(BooleanVectorLoader loader, PermutationGenerator generator){
         this.loader = loader;
         this.generator = generator;
     }

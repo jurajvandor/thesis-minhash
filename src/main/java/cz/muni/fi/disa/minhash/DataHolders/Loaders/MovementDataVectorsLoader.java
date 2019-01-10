@@ -1,4 +1,8 @@
-package cz.muni.fi.disa.minhash.DataHolders;
+package cz.muni.fi.disa.minhash.DataHolders.Loaders;
+
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.Joint;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.MovementData;
+import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 import java.io.IOException;
 import java.util.List;

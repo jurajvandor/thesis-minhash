@@ -1,4 +1,4 @@
-package cz.muni.fi.disa.minhash.DataHolders;
+package cz.muni.fi.disa.minhash.DataHolders.ObjectData;
 
 import java.util.Arrays;
 import java.util.Objects;

@@ -1,7 +1,7 @@
-package cz.muni.fi.disa.minhash.MinHash;
+package cz.muni.fi.disa.minhash.QueryExecutors;
 
-import cz.muni.fi.disa.minhash.DataHolders.FloatVectorData;
-import cz.muni.fi.disa.minhash.DataHolders.FloatVectorLoader;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.FloatVectorData;
+import cz.muni.fi.disa.minhash.DataHolders.Loaders.FloatVectorLoader;
 import javafx.util.Pair;
 
 import java.util.*;

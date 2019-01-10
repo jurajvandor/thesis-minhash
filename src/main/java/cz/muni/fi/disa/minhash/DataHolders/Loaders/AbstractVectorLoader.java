@@ -1,4 +1,6 @@
-package cz.muni.fi.disa.minhash.DataHolders;
+package cz.muni.fi.disa.minhash.DataHolders.Loaders;
+
+import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 import java.io.*;
 import java.util.Iterator;
@@ -14,7 +16,7 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
     protected int vectorSize;
     protected List<T> cache = null;
 
-    public AbstractVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException{
+    public AbstractVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException {
         this.delimiter = delimiter;
         this.path = path;
         this.vectorSize = vectorSize;

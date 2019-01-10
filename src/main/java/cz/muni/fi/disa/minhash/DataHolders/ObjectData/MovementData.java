@@ -1,4 +1,4 @@
-package cz.muni.fi.disa.minhash.DataHolders;
+package cz.muni.fi.disa.minhash.DataHolders.ObjectData;
 
 public class MovementData {
     public static final int N_OF_JOINTS = 31;
