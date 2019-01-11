@@ -46,7 +46,7 @@ public class BinaryMappingMinhashCreator {
      */
     public void createMinhashes() throws MinhashException{
         String path = loader.getPath().replace(".data", "") +
-                "_minhash_" + generator.getNumberOfVectors() + ".data";
+                "_minhash_1_" + generator.getNumberOfVectors() + ".data";
         try {
             OutputStream out = Files.newOutputStream(Paths.get(path));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
