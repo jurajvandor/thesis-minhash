@@ -13,7 +13,7 @@ public class MinhashQueryExecutor {
 
     public static void main(String[] args) throws Exception{
             try {
-                IntegerVectorLoader loader = new IntegerVectorLoader("data_files/features-images-profiset100K_minhash_2048.data", " ", 2048);
+                IntegerVectorLoader loader = new IntegerVectorLoader("data_files/objects-annotations-specific-coords_normPOS_minhash_4_2048.data", " ", 2048);
                 MinhashQueryExecutor executor = new MinhashQueryExecutor(loader);
                 Pair<SortedSet<QueryResultItem>, Long> result = executor.findSimilarItems(50, "0000000002");
                 for (QueryResultItem item : result.getKey())

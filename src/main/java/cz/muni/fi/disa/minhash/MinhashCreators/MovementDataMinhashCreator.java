@@ -91,10 +91,9 @@ public class MovementDataMinhashCreator {
         for (int i = 0; i < data.getFrames().length; i++){
             for (int j = 0; j < MovementData.N_OF_JOINTS; j++){
                 Joint joint = data.getFrames()[i][j];
-                //TODO
-                float index = (joint.getX()+22)/stepSize + cubeSize*((joint.getY()+22)/stepSize + cubeSize*(joint.getZ()+22)/stepSize);
-                System.out.println(joint.getX() + " " + joint.getY() + " " + joint.getZ() + " " + index);
-                result[(int)index] = true;
+                int index = (int)((joint.getX()+22)/stepSize) + cubeSize*((int)((joint.getY()+22)/stepSize) + cubeSize*(int)((joint.getZ()+22)/stepSize));
+//                System.out.println(joint.getX() + " " + joint.getY() + " " + joint.getZ() + " " + index);
+                result[index] = true;
             }
         }
         return result;
