@@ -15,7 +15,7 @@ public class EvaluatorMinhashVsEuclidean {
         try {
             IntegerVectorLoader loader = new IntegerVectorLoader("data_files/objects-annotations-specific-coords_normPOS_minhash_4_2048.data", " ", 2048);
             MinhashQueryExecutor minhash = new MinhashQueryExecutor(loader);
-            ReferenceQueryExecutor ref = new ReferenceQueryExecutor(new FloatVectorLoader("data_files/merged.data", ",", 4096));
+            ReferenceQueryExecutor ref = new ReferenceQueryExecutor(new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096));
             (new EvaluatorMinhashVsEuclidean(minhash, ref)).executeAndEvaluate(5,"3136_100_1245_236.png");
             (new EvaluatorMinhashVsEuclidean(minhash, ref)).executeAndEvaluate(10,"3136_100_1245_236.png");
             (new EvaluatorMinhashVsEuclidean(minhash, ref)).executeAndEvaluate(20,"3136_100_1245_236.png");
