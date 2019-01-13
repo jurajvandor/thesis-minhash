@@ -31,7 +31,7 @@ public class ReferenceQueryExecutor {
     }
 
     public Pair<SortedSet<QueryResultItem>, Long> findSimilarItems(int numberOfRequestedItems, String idOfQueryItem){
-        Optional<FloatVectorData> query = data.stream().findFirst().filter(x -> x.getId().equals(idOfQueryItem));
+        Optional<FloatVectorData> query = data.stream().filter(x -> x.getId().equals(idOfQueryItem)).findAny();
         return query.isPresent() ? findSimilarItems(numberOfRequestedItems, query.get().getVector()) : null;
     }
 

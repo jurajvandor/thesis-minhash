@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 
 public class MovementDataMinhashCreator {
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MovementDataMinhashCreator creator = new MovementDataMinhashCreator(new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";"), new PermutationGenerator(4096, 2048));
+        MovementDataMinhashCreator creator = new MovementDataMinhashCreator(new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";"), new PermutationGenerator(8000, 2048));
         creator.createMinhashes();
     }
 
