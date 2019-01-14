@@ -16,6 +16,14 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
     protected int vectorSize;
     protected List<T> cache = null;
 
+    public String getDelimiter() {
+        return delimiter;
+    }
+
+    public int getVectorSize() {
+        return vectorSize;
+    }
+
     public AbstractVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException {
         this.delimiter = delimiter;
         this.path = path;

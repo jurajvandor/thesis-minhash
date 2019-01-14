@@ -14,16 +14,16 @@ import java.nio.file.Paths;
 public class BinaryMappingMinhashCreator implements MinhashCreator{
 
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        BinaryMappingMinhashCreator creator = new BinaryMappingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), new PermutationGenerator(4096, 2048));
+        BinaryMappingMinhashCreator creator = new BinaryMappingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), 2048);
         creator.createMinhashes();
     }
 
     private BooleanVectorLoader loader;
     private PermutationGenerator generator;
 
-    public BinaryMappingMinhashCreator(BooleanVectorLoader loader, PermutationGenerator generator){
+    public BinaryMappingMinhashCreator(BooleanVectorLoader loader, int minhashVectorSize){
         this.loader = loader;
-        this.generator = generator;
+        this.generator = new PermutationGenerator(loader.getVectorSize(), minhashVectorSize);
     }
 
     public BooleanVectorLoader getLoader() {

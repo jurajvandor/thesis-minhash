@@ -3,10 +3,7 @@ package cz.muni.fi.disa.minhash.Evaluation;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.FloatVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.IntegerVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
-import cz.muni.fi.disa.minhash.QueryExecutors.MinhashQueryExecutor;
-import cz.muni.fi.disa.minhash.QueryExecutors.QueryResult;
-import cz.muni.fi.disa.minhash.QueryExecutors.QueryResultItem;
-import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
+import cz.muni.fi.disa.minhash.QueryExecutors.*;
 
 public class Evaluator {
     public static void main(String[] args){
@@ -32,33 +29,33 @@ public class Evaluator {
     }
 
 
-    private MinhashQueryExecutor minhash;
-    private ReferenceQueryExecutor euclidean;
+    private QueryExecutor first;
+    private QueryExecutor second;
 
-    public Evaluator(MinhashQueryExecutor minhash, ReferenceQueryExecutor euclidean) {
-        this.minhash = minhash;
-        this.euclidean = euclidean;
+    public Evaluator(QueryExecutor first, QueryExecutor second) {
+        this.first = first;
+        this.second = second;
     }
 
-    public MinhashQueryExecutor getMinhash() {
-        return minhash;
+    public QueryExecutor getFirst() {
+        return first;
     }
 
-    public void setMinhash(MinhashQueryExecutor minhash) {
-        this.minhash = minhash;
+    public void setFirst(QueryExecutor first) {
+        this.first = first;
     }
 
-    public ReferenceQueryExecutor getEuclidean() {
-        return euclidean;
+    public QueryExecutor getSecond() {
+        return second;
     }
 
-    public void setEuclidean(ReferenceQueryExecutor euclidean) {
-        this.euclidean = euclidean;
+    public void setSecond(QueryExecutor second) {
+        this.second = second;
     }
 
     public void executeAndEvaluate(int numberOfRequestedItems, String queryItemId){
-        QueryResult minhashResult = minhash.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
-        QueryResult referenceResult = euclidean.findSimilarItems(numberOfRequestedItems, queryItemId);
+        QueryResult minhashResult = first.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
+        QueryResult referenceResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
         int count = 0;
         for (QueryResultItem i : minhashResult.getItems()){
             for (QueryResultItem j : referenceResult.getItems())

@@ -16,16 +16,16 @@ import java.nio.file.Paths;
 
 public class MovementDataMinhashCreator implements MinhashCreator{
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MovementDataMinhashCreator creator = new MovementDataMinhashCreator(new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";"), new PermutationGenerator(125000, 4096));
+        MovementDataMinhashCreator creator = new MovementDataMinhashCreator(new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";"), 2048, 10);
         creator.createMinhashes();
     }
 
     private MovementDataVectorsLoader loader;
     private PermutationGenerator generator;
 
-    public MovementDataMinhashCreator(MovementDataVectorsLoader loader, PermutationGenerator generator){
+    public MovementDataMinhashCreator(MovementDataVectorsLoader loader, int minhashVectorSize, int numberOfDivisionsInOneDimension){
         this.loader = loader;
-        this.generator = generator;
+        this.generator = new PermutationGenerator(numberOfDivisionsInOneDimension*numberOfDivisionsInOneDimension*numberOfDivisionsInOneDimension, minhashVectorSize);
     }
 
     public MovementDataVectorsLoader getLoader() {
