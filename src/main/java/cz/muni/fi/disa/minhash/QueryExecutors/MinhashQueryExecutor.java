@@ -6,7 +6,7 @@ import javafx.util.Pair;
 
 import java.util.*;
 
-public class MinhashQueryExecutor {
+public class MinhashQueryExecutor implements QueryExecutor{
 
     private IntegerVectorLoader loader;
     private List<IntegerVectorData> data;
@@ -15,10 +15,10 @@ public class MinhashQueryExecutor {
             try {
                 IntegerVectorLoader loader = new IntegerVectorLoader("data_files/objects-annotations-specific-coords_normPOS_minhash_4_2048.data", " ", 2048);
                 MinhashQueryExecutor executor = new MinhashQueryExecutor(loader);
-                Pair<SortedSet<QueryResultItem>, Long> result = executor.findSimilarItems(50, "0000000002");
-                for (QueryResultItem item : result.getKey())
+                QueryResult result = executor.findSimilarItems(50, "0000000002");
+                for (QueryResultItem item : result.getItems())
                     System.out.println(item.getSimilarity() + " " + item.getId());
-                System.out.println("Time: " + result.getValue());
+                System.out.println("Time: " + result.getExecutionTime());
             }catch (Exception e){
                 throw new Exception(e);
             }
@@ -30,12 +30,12 @@ public class MinhashQueryExecutor {
         data = loader.loadAllVectorsToList();
     }
 
-    public Pair<SortedSet<QueryResultItem>, Long> findSimilarItems(int numberOfRequestedItems, String idOfQueryItem){
+    public QueryResult findSimilarItems(int numberOfRequestedItems, String idOfQueryItem){
         Optional<IntegerVectorData> query = data.stream().filter(x -> x.getId().equals(idOfQueryItem)).findAny();
         return query.isPresent() ? findSimilarItems(numberOfRequestedItems, query.get().getVector()) : null;
     }
 
-    public Pair<SortedSet<QueryResultItem>, Long> findSimilarItems(int numberOfRequestedItems, int[] queryVector){
+    public QueryResult findSimilarItems(int numberOfRequestedItems, int[] queryVector){
         TreeSet<QueryResultItem> result = new TreeSet<>();
         long begin = System.currentTimeMillis();
         for (IntegerVectorData item : data){
@@ -44,10 +44,10 @@ public class MinhashQueryExecutor {
                 result.pollFirst();
         }
         long end = System.currentTimeMillis();
-        return new Pair<>(result, end - begin);
+        return new QueryResult(result, end - begin);
     }
 
-    public float compare(int[] o1, int[] o2) {
+    private float compare(int[] o1, int[] o2) {
         int count = 0;
         for (int i = 0; i < o1.length; i++) {
             if (o1[i] == o2[i])

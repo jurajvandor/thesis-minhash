@@ -14,9 +14,9 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class MovementDataMinhashCreator {
+public class MovementDataMinhashCreator implements MinhashCreator{
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MovementDataMinhashCreator creator = new MovementDataMinhashCreator(new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";"), new PermutationGenerator(8000, 2048));
+        MovementDataMinhashCreator creator = new MovementDataMinhashCreator(new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";"), new PermutationGenerator(125000, 4096));
         creator.createMinhashes();
     }
 
@@ -46,6 +46,7 @@ public class MovementDataMinhashCreator {
     /**
      * This will overwrite existing minhash of same vector size for this data file
      */
+    @Override
     public void createMinhashes() throws MinhashException{
         String path = loader.getPath().replace(".data", "") +
                 "_minhash_4_" + generator.getNumberOfVectors() + ".data";
@@ -92,7 +93,6 @@ public class MovementDataMinhashCreator {
             for (int j = 0; j < MovementData.N_OF_JOINTS; j++){
                 Joint joint = data.getFrames()[i][j];
                 int index = (int)((joint.getX()+22)/stepSize) + cubeSize*((int)((joint.getY()+22)/stepSize) + cubeSize*(int)((joint.getZ()+22)/stepSize));
-//                System.out.println(joint.getX() + " " + joint.getY() + " " + joint.getZ() + " " + index);
                 result[index] = true;
             }
         }

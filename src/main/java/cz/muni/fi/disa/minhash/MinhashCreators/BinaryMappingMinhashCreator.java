@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class BinaryMappingMinhashCreator {
+public class BinaryMappingMinhashCreator implements MinhashCreator{
 
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
         BinaryMappingMinhashCreator creator = new BinaryMappingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), new PermutationGenerator(4096, 2048));
@@ -44,6 +44,7 @@ public class BinaryMappingMinhashCreator {
     /**
      * This will overwrite existing minhash of same vector size for this data file
      */
+    @Override
     public void createMinhashes() throws MinhashException{
         String path = loader.getPath().replace(".data", "") +
                 "_minhash_1_" + generator.getNumberOfVectors() + ".data";
