@@ -32,7 +32,11 @@ public class ReferenceQueryExecutor implements QueryExecutor{
 
     public QueryResult findSimilarItems(int numberOfRequestedItems, String idOfQueryItem){
         Optional<FloatVectorData> query = data.stream().filter(x -> x.getId().equals(idOfQueryItem)).findAny();
-        return query.isPresent() ? findSimilarItems(numberOfRequestedItems, query.get().getVector()) : null;
+        if (!query.isPresent())
+            return null;
+        QueryResult result = findSimilarItems(numberOfRequestedItems+1, query.get().getVector());
+        ((TreeSet)result.getItems()).pollLast();
+        return result;
     }
 
     public QueryResult findSimilarItems(int numberOfRequestedItems, float[] queryVector){
