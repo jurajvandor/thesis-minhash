@@ -53,7 +53,7 @@ public class Evaluator {
         this.second = second;
     }
 
-    public void executeAndEvaluate(int numberOfRequestedItems, String queryItemId){
+    public EvaluationResult executeAndEvaluate(int numberOfRequestedItems, String queryItemId){
         QueryResult minhashResult = first.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
         QueryResult referenceResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
         int count = 0;
@@ -64,5 +64,6 @@ public class Evaluator {
                 }
         }
         System.out.println("same:" + count + ", times: " + minhashResult.getExecutionTime() + " " + referenceResult.getExecutionTime());
+        return new EvaluationResult(minhashResult.getExecutionTime(), referenceResult.getExecutionTime(), count);
     }
 }
