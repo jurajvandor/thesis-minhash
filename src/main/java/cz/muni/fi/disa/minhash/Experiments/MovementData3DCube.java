@@ -2,7 +2,7 @@ package cz.muni.fi.disa.minhash.Experiments;
 
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.FloatVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.IntegerVectorLoader;
-import cz.muni.fi.disa.minhash.DataHolders.ObjectData.IntegerVectorData;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.FloatVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 import cz.muni.fi.disa.minhash.Evaluation.EvaluationResult;
 import cz.muni.fi.disa.minhash.Evaluation.Evaluator;
@@ -17,10 +17,11 @@ public class MovementData3DCube {
         try{
             IntegerVectorLoader loader = new IntegerVectorLoader("data_files/objects-annotations-specific-coords_normPOS_minhash_4_2048.data", " ", 2048);
             MinhashQueryExecutor minhash = new MinhashQueryExecutor(loader);
-            ReferenceQueryExecutor ref = new ReferenceQueryExecutor(new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096));
+            FloatVectorLoader loader1 = new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
+            ReferenceQueryExecutor ref = new ReferenceQueryExecutor(loader1);
             Evaluator ev = new Evaluator(minhash, ref);
             Random rand = new Random();
-            List<IntegerVectorData> l = loader.loadAllVectorsToList();
+            List<FloatVectorData> l = loader1.loadAllVectorsToList();
             long timeFirst = 0;
             long timeSecond = 0;
             int sameItems = 0;
