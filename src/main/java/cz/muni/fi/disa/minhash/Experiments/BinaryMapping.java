@@ -27,8 +27,8 @@ public class BinaryMapping {
             int sameItems = 0;
             for (String id : ids) {
                 EvaluationResult result = ev.executeAndEvaluate(20, id);
-                timeFirst += result.getTimeFirst();
-                timeSecond += result.getTimeSecond();
+                timeFirst += result.getFirst().getExecutionTime();
+                timeSecond += result.getSecond().getExecutionTime();
                 sameItems += result.getSameItems();
             }
             int len = ids.size();

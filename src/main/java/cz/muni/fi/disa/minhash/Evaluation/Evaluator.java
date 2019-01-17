@@ -54,16 +54,41 @@ public class Evaluator {
     }
 
     public EvaluationResult executeAndEvaluate(int numberOfRequestedItems, String queryItemId){
-        QueryResult minhashResult = first.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
-        QueryResult referenceResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
+        QueryResult firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId);
+        QueryResult secondResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
         int count = 0;
-        for (QueryResultItem i : minhashResult.getItems()){
-            for (QueryResultItem j : referenceResult.getItems())
+        for (QueryResultItem i : firstResult.getItems()){
+            for (QueryResultItem j : secondResult.getItems())
+                if (i.getId().equals(j.getId())){
+                    count++;
+                }
+        }
+        return new EvaluationResult(count, firstResult, secondResult);
+    }
+
+    public EvaluationResult executeAndEvaluateMotion(int numberOfRequestedItems, String queryItemId){
+        String cat = getCat(queryItemId);
+        QueryResult firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
+        QueryResult secondResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
+        int count = 0;
+        int catFirst = 0;
+        int catSecond = 0;
+        for (QueryResultItem i : firstResult.getItems()){
+            if (cat.equals(getCat(i.getId())))
+                catFirst++;
+            for (QueryResultItem j : secondResult.getItems())
                 if (i.getId().equals(j.getId().replace(".png", ""))){
                     count++;
                 }
         }
-        System.out.println("same:" + count + ", times: " + minhashResult.getExecutionTime() + " " + referenceResult.getExecutionTime());
-        return new EvaluationResult(minhashResult.getExecutionTime(), referenceResult.getExecutionTime(), count);
+        for (QueryResultItem j : secondResult.getItems())
+            if (cat.equals(getCat(j.getId())))
+                catSecond++;
+        return new EvaluationMotionResult(count, firstResult, secondResult, catFirst, catSecond);
     }
+
+    private String getCat(String id){
+        return id.split("_")[1];
+    }
+
 }

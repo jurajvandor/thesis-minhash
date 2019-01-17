@@ -1,30 +1,16 @@
 package cz.muni.fi.disa.minhash.Evaluation;
 
+import cz.muni.fi.disa.minhash.QueryExecutors.QueryResult;
+
 public class EvaluationResult {
-    long timeFirst;
-    long timeSecond;
-    int sameItems;
+    protected int sameItems;
+    protected QueryResult first;
+    protected QueryResult second;
 
-    public EvaluationResult(long timeFirst, long timeSecond, int sameItems) {
-        this.timeFirst = timeFirst;
-        this.timeSecond = timeSecond;
+    public EvaluationResult(int sameItems, QueryResult first, QueryResult second) {
         this.sameItems = sameItems;
-    }
-
-    public long getTimeFirst() {
-        return timeFirst;
-    }
-
-    public void setTimeFirst(long timeFirst) {
-        this.timeFirst = timeFirst;
-    }
-
-    public long getTimeSecond() {
-        return timeSecond;
-    }
-
-    public void setTimeSecond(long timeSecond) {
-        this.timeSecond = timeSecond;
+        this.first = first;
+        this.second = second;
     }
 
     public int getSameItems() {
@@ -33,5 +19,30 @@ public class EvaluationResult {
 
     public void setSameItems(int sameItems) {
         this.sameItems = sameItems;
+    }
+
+    public QueryResult getFirst() {
+        return first;
+    }
+
+    public void setFirst(QueryResult first) {
+        this.first = first;
+    }
+
+    public QueryResult getSecond() {
+        return second;
+    }
+
+    public void setSecond(QueryResult second) {
+        this.second = second;
+    }
+
+    @Override
+    public String toString() {
+        return sameItems + "," + first.getExecutionTime() + "," + second.getExecutionTime() + ",,";
+    }
+
+    public static String getCsvHeader(){
+        return "SameItems,FirstTime,SecondTime,FirstInCat,SecondInCat";
     }
 }

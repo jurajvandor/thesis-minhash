@@ -28,8 +28,8 @@ public class MovementData3DCube {
             int len = 100;
             for (int i = 0; i < len; i++){
                 EvaluationResult result = ev.executeAndEvaluate(20, l.get(rand.nextInt(l.size())).getId());
-                timeFirst += result.getTimeFirst();
-                timeSecond += result.getTimeSecond();
+                timeFirst += result.getFirst().getExecutionTime();
+                timeSecond += result.getSecond().getExecutionTime();
                 sameItems += result.getSameItems();
             }
             System.out.println("same: " + sameItems/(float)len + " times: " + timeFirst/len + " " + timeSecond/len);
