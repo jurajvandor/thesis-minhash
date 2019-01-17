@@ -34,9 +34,9 @@ public class AverageResult {
         float count = (float)this.count;
         String ret;
         if (useCats)
-            ret = same/count + "," + timeFirst + "," + timeSecond + "," + sameCatFirst + "," + sameCatSecond;
+            ret = same/count + "," + timeFirst/count + "," + timeSecond/count + "," + sameCatFirst/count + "," + sameCatSecond/count;
         else
-            ret = same/count + "," + timeFirst + "," + timeSecond + ",,";
+            ret = same/count + "," + timeFirst/count + "," + timeSecond/count + ",,";
         return ret;
     }
 
