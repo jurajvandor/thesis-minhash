@@ -44,7 +44,7 @@ public class PairingMinhashCreator implements MinhashCreator{
         this.generator = generator;
     }
     @Override
-    public void createMinhashes() throws MinhashException {
+    public String createMinhashes() throws MinhashException {
         String path = loader.getPath().replace(".data", "") +
                 "_minhash_3_" + generator.getNumberOfVectors() + ".data";
         try {
@@ -77,5 +77,6 @@ public class PairingMinhashCreator implements MinhashCreator{
         }catch (PermutationException e) {
             throw new MinhashException("Error loading permutation", e);
         }
+        return path;
     }
 }

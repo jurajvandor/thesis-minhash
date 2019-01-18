@@ -56,9 +56,9 @@ public class QuantizationMinhashCreator implements MinhashCreator{
 
 
     @Override
-    public void createMinhashes() throws MinhashException {
+    public String createMinhashes() throws MinhashException {
         String path = loader.getPath().replace(".data", "") +
-                "_minhash_2_" + generator.getNumberOfVectors() + ".data";
+                "_minhash_2_" + generator.getNumberOfVectors() + "_" + buckets.length + ".data";
         try {
             OutputStream out = Files.newOutputStream(Paths.get(path));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
@@ -87,7 +87,10 @@ public class QuantizationMinhashCreator implements MinhashCreator{
         }catch (PermutationException e) {
             throw new MinhashException("Error loading permutation", e);
         }
+        return path;
     }
+
+
     private boolean[] createDescriptor(FloatVectorData data){
         int j = 0;
         boolean[] result = new boolean[data.getVector().length*(buckets.length)];

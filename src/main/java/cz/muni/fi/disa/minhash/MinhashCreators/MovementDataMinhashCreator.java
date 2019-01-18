@@ -47,13 +47,13 @@ public class MovementDataMinhashCreator implements MinhashCreator{
      * This will overwrite existing minhash of same vector size for this data file
      */
     @Override
-    public void createMinhashes() throws MinhashException{
-        String path = loader.getPath().replace(".data", "") +
-                "_minhash_4_" + generator.getNumberOfVectors() + ".data";
+    public String createMinhashes() throws MinhashException{
         int nOfCubes = generator.getSizeOfVector();
         int cubeSize = (int) Math.cbrt(nOfCubes);
         if (cubeSize*cubeSize*cubeSize != nOfCubes)
             throw new MinhashException("cube root of number of the smaller cubes need to be whole number");
+        String path = loader.getPath().replace(".data", "") +
+                "_minhash_4_" + generator.getNumberOfVectors() + "_" + cubeSize + ".data";
         float stepSize = 44/(float)cubeSize;
         try {
             OutputStream out = Files.newOutputStream(Paths.get(path));
@@ -83,6 +83,7 @@ public class MovementDataMinhashCreator implements MinhashCreator{
         }catch (PermutationException e) {
             throw new MinhashException("Error loading permutation", e);
         }
+        return path;
     }
 
 

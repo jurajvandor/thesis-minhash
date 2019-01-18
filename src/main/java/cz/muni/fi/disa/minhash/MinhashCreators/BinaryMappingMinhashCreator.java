@@ -45,7 +45,7 @@ public class BinaryMappingMinhashCreator implements MinhashCreator{
      * This will overwrite existing minhash of same vector size for this data file
      */
     @Override
-    public void createMinhashes() throws MinhashException{
+    public String createMinhashes() throws MinhashException{
         String path = loader.getPath().replace(".data", "") +
                 "_minhash_1_" + generator.getNumberOfVectors() + ".data";
         try {
@@ -75,5 +75,6 @@ public class BinaryMappingMinhashCreator implements MinhashCreator{
         }catch (PermutationException e) {
             throw new MinhashException("Error loading permutation", e);
         }
+        return path;
     }
 }
