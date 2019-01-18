@@ -35,8 +35,16 @@ public class PermutationGenerator {
         return sizeOfVector;
     }
 
+    public void setSizeOfVector(int sizeOfVector){
+        this.sizeOfVector = sizeOfVector;
+    }
+
     public int getNumberOfVectors() {
         return numberOfVectors;
+    }
+
+    public void setNumberOfVectors(int numberOfVectors){
+        this.numberOfVectors = numberOfVectors;
     }
 
     /**

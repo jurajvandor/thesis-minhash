@@ -1,20 +1,10 @@
 package cz.muni.fi.disa.minhash.MinhashCreators;
 
-import cz.muni.fi.disa.minhash.DataHolders.Loaders.BooleanVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.FloatVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
-import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.FloatVectorData;
-import cz.muni.fi.disa.minhash.DataHolders.PermutationException;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class QuantizationMinhashCreator extends AbstractMinhashCreator{
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
@@ -25,12 +15,17 @@ public class QuantizationMinhashCreator extends AbstractMinhashCreator{
     private float[] buckets;
 
     //max value of float descriptors is 36.6
-    public QuantizationMinhashCreator(FloatVectorLoader loader, int numberOfBucketsForValue, int minhashVectorSize){
-        super(minhashVectorSize, new PermutationGenerator(numberOfBucketsForValue*loader.getVectorSize(), minhashVectorSize), loader);
-        buckets = new float[numberOfBucketsForValue];
+    public QuantizationMinhashCreator(FloatVectorLoader loader, int numberOfBuckets, int minhashVectorSize){
+        super(minhashVectorSize, new PermutationGenerator(numberOfBuckets * loader.getVectorSize(), minhashVectorSize), loader);
+        setNumberOfBuckets(numberOfBuckets);
+    }
+
+    public void setNumberOfBuckets(int numberOfBuckets){
+        generator.setSizeOfVector(numberOfBuckets * loader.getVectorSize());
+        buckets = new float[numberOfBuckets];
         buckets[0] = (float)0.0;
-        for(int i = 1; i < numberOfBucketsForValue; i++){
-            buckets[i] = (float)Math.pow(36.6,(i/(double)numberOfBucketsForValue)); //((float)36.6 / (float)numberOfBucketsForValue)*i;
+        for(int i = 1; i < numberOfBuckets; i++){
+            buckets[i] = (float)Math.pow(36.6,(i/(double)numberOfBuckets)); //((float)36.6 / (float)numberOfBuckets)*i;
         }
     }
 

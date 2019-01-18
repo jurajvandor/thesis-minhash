@@ -16,10 +16,14 @@ public class MovementDataMinhashCreator extends AbstractMinhashCreator{
     private int cubeSize;
     private float stepSize;
 
-    public MovementDataMinhashCreator(MovementDataVectorsLoader loader, int minhashVectorSize, int numberOfDivisionsInOneDimension){
-        super(minhashVectorSize, new PermutationGenerator(numberOfDivisionsInOneDimension*numberOfDivisionsInOneDimension*numberOfDivisionsInOneDimension, minhashVectorSize), loader);
-        cubeSize = numberOfDivisionsInOneDimension;
-        stepSize = 44/(float)cubeSize;
+    public MovementDataMinhashCreator(MovementDataVectorsLoader loader, int minhashVectorSize, int cubeSize){
+        super(minhashVectorSize, new PermutationGenerator(cubeSize*cubeSize*cubeSize, minhashVectorSize), loader);
+        setCubeSize(cubeSize);
+    }
+
+    public void setCubeSize(int cubeSize){
+        this.cubeSize = cubeSize;
+        stepSize = 44/(float) this.cubeSize;
     }
 
     @Override

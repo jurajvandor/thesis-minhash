@@ -27,6 +27,11 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
         return minhashVectorSize;
     }
 
+    public void setMinhashVectorSize(int minhashVectorSize){
+        generator.setNumberOfVectors(minhashVectorSize);
+        this.minhashVectorSize = minhashVectorSize;
+    }
+
     protected abstract String getPath();
 
     protected abstract void createMinhash(StringBuilder builder, AbstractVectorData data, int[][] permutations);
