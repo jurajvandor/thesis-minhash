@@ -4,13 +4,13 @@ package cz.muni.fi.disa.minhash.DataHolders.ObjectData;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class FloatVectorData {
+public class FloatVectorData extends AbstractVectorData{
     private float[] vector;
     private String id;
 
     public FloatVectorData(float[] vector, String id){
+        super(id);
         this.vector = vector;
-        this.id = id;
     }
 
     public float[] getVector() {
@@ -19,14 +19,6 @@ public class FloatVectorData {
 
     public void setVector(float[] vector) {
         this.vector = vector;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     @Override

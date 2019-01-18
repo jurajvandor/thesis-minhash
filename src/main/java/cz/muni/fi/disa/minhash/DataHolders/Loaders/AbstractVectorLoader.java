@@ -1,5 +1,6 @@
 package cz.muni.fi.disa.minhash.DataHolders.Loaders;
 
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 import java.io.*;
@@ -7,14 +8,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
+public abstract class AbstractVectorLoader implements Iterable<AbstractVectorData>, Closeable{
 
     protected CustomIterator iterator;
     private String path;
     protected BufferedReader reader = null;
     protected String delimiter;
     protected int vectorSize;
-    protected List<T> cache = null;
+    protected List<AbstractVectorData> cache = null;
 
     public String getDelimiter() {
         return delimiter;
@@ -40,14 +41,14 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
         }
     }
 
-    abstract class CustomIterator implements Iterator<T>{
+    abstract class CustomIterator implements Iterator<AbstractVectorData>{
         protected boolean hasNext = true;
         protected String nextLineId;
         protected String nextLineData;
-        protected AbstractVectorLoader<T> loader;
+        protected AbstractVectorLoader loader;
         protected boolean nextCalled = false;
 
-        CustomIterator(AbstractVectorLoader<T> loader) {
+        CustomIterator(AbstractVectorLoader loader) {
             this.loader = loader;
             setNextLine();
         }
@@ -73,13 +74,13 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
         }
     }
 
-    public List<T> loadAllVectorsToList(){
+    public List<?> loadAllVectorsToList(){
         if (cache != null)
             return cache;
         if (iterator.nextCalled)
             return null;
-        LinkedList<T> list = new LinkedList<>();
-        for (T data : this) {
+        LinkedList<AbstractVectorData> list = new LinkedList<>();
+        for (AbstractVectorData data : this) {
             list.add(data);
         }
         cache = list;
@@ -98,7 +99,7 @@ class AbstractVectorLoader<T> implements Iterable<T>, Closeable{
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<AbstractVectorData> iterator() {
         return iterator;
     }
 }

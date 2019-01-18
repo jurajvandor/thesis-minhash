@@ -3,13 +3,13 @@ package cz.muni.fi.disa.minhash.DataHolders.ObjectData;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class IntegerVectorData {
+public class IntegerVectorData extends AbstractVectorData{
     private int[] vector;
     private String id;
 
     public IntegerVectorData(int[] vector, String id){
+        super(id);
         this.vector = vector;
-        this.id = id;
     }
 
     public int[] getVector() {
@@ -18,14 +18,6 @@ public class IntegerVectorData {
 
     public void setVector(int[] vector) {
         this.vector = vector;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     @Override

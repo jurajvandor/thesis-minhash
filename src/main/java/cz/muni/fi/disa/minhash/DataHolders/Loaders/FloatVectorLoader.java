@@ -1,11 +1,13 @@
 package cz.muni.fi.disa.minhash.DataHolders.Loaders;
 
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.FloatVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 import java.util.List;
 
-public class FloatVectorLoader extends AbstractVectorLoader<FloatVectorData> {
+public class FloatVectorLoader extends AbstractVectorLoader {
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
@@ -24,6 +26,11 @@ public class FloatVectorLoader extends AbstractVectorLoader<FloatVectorData> {
         this.iterator = new CustomIterator(this);
     }
 
+    @Override
+    public List<FloatVectorData> loadAllVectorsToList() {
+        return (List<FloatVectorData>)super.loadAllVectorsToList();
+    }
+
     private class CustomIterator extends AbstractVectorLoader.CustomIterator {
 
         public CustomIterator(FloatVectorLoader loader){
@@ -31,7 +38,7 @@ public class FloatVectorLoader extends AbstractVectorLoader<FloatVectorData> {
         }
 
         @Override
-        public Object next() {
+        public FloatVectorData next() {
             this.nextCalled = true;
             float[] vector = new float[vectorSize];
             String id = nextLineId.split(" ")[2];

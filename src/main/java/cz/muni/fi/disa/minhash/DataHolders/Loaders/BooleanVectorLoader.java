@@ -5,7 +5,7 @@ import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 import java.util.List;
 
-public class BooleanVectorLoader extends AbstractVectorLoader<BooleanVectorData>{
+public class BooleanVectorLoader extends AbstractVectorLoader{
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
@@ -23,6 +23,11 @@ public class BooleanVectorLoader extends AbstractVectorLoader<BooleanVectorData>
     public BooleanVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException {
         super(path, delimiter, vectorSize);
         this.iterator = new BooleanVectorLoader.CustomIterator(this);
+    }
+
+    @Override
+    public List<BooleanVectorData> loadAllVectorsToList() {
+        return (List<BooleanVectorData>)super.loadAllVectorsToList();
     }
 
     private class CustomIterator extends AbstractVectorLoader.CustomIterator {

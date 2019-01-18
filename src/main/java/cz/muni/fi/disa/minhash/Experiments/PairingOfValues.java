@@ -16,7 +16,7 @@ import java.util.Random;
 public class PairingOfValues {
     public static void main(String[] args){
         try{
-            IntegerVectorLoader loader = new IntegerVectorLoader("data_files/features-images-profiset100K_minhash_3_128.data", " ", 128);
+            IntegerVectorLoader loader = new IntegerVectorLoader("data_files/features-images-profiset100K_minhash_3_2048.data", " ", 2048);
             MinhashQueryExecutor minhash = new MinhashQueryExecutor(loader);
             ReferenceQueryExecutor ref = new ReferenceQueryExecutor(new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096));
             Evaluator ev = new Evaluator(minhash, ref);

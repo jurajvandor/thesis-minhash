@@ -1,5 +1,6 @@
 package cz.muni.fi.disa.minhash.DataHolders.Loaders;
 
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.Joint;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.MovementData;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
@@ -7,7 +8,7 @@ import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 import java.io.IOException;
 import java.util.List;
 
-public class MovementDataVectorsLoader extends AbstractVectorLoader<MovementData>{
+public class MovementDataVectorsLoader extends AbstractVectorLoader{
     //TODO delete test
     public static void main(String[] args) throws Exception{
         try {
@@ -25,6 +26,11 @@ public class MovementDataVectorsLoader extends AbstractVectorLoader<MovementData
     public MovementDataVectorsLoader(String path, String delimiter) throws VectorLoaderException {
         super(path, delimiter, 0);
         this.iterator = new CustomIterator(this);
+    }
+
+    @Override
+    public List<MovementData> loadAllVectorsToList() {
+        return (List<MovementData>)super.loadAllVectorsToList();
     }
 
     class CustomIterator extends AbstractVectorLoader.CustomIterator{
@@ -63,7 +69,7 @@ public class MovementDataVectorsLoader extends AbstractVectorLoader<MovementData
         }
 
         @Override
-        public Object next() {
+        public MovementData next() {
             this.nextCalled = true;
             String id = nextLineId.split(" ")[2];
             MovementData result = new MovementData(nextDataNumberOfFrames, id);

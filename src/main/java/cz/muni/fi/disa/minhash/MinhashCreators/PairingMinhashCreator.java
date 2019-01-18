@@ -1,6 +1,7 @@
 package cz.muni.fi.disa.minhash.MinhashCreators;
 
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.BooleanVectorLoader;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationException;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
@@ -13,70 +14,37 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class PairingMinhashCreator implements MinhashCreator{
+public class PairingMinhashCreator extends AbstractMinhashCreator{
 
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
         MinhashCreator creator = new PairingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), 2048);
         creator.createMinhashes();
     }
 
-    private BooleanVectorLoader loader;
-    private PermutationGenerator generator;
-
     public PairingMinhashCreator(BooleanVectorLoader loader, int minhashVectorSize){
-        this.loader = loader;
-        this.generator = new PermutationGenerator(loader.getVectorSize()*loader.getVectorSize(), minhashVectorSize);
+        super(minhashVectorSize, new PermutationGenerator(loader.getVectorSize()*loader.getVectorSize(), minhashVectorSize), loader);
     }
 
-    public BooleanVectorLoader getLoader() {
-        return loader;
-    }
-
-    public void setLoader(BooleanVectorLoader loader) {
-        this.loader = loader;
-    }
-
-    public PermutationGenerator getGenerator() {
-        return generator;
-    }
-
-    public void setGenerator(PermutationGenerator generator) {
-        this.generator = generator;
-    }
     @Override
-    public String createMinhashes() throws MinhashException {
-        String path = loader.getPath().replace(".data", "") +
+    protected String getPath() {
+        return loader.getPath().replace(".data", "") +
                 "_minhash_3_" + generator.getNumberOfVectors() + ".data";
-        try {
-            OutputStream out = Files.newOutputStream(Paths.get(path));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-            int[][] permutations = generator.loadPermutations();
-            for (BooleanVectorData data : loader) {
-                writer.write("#objectKey messif.objects.keys.AbstractObjectKey " + data.getId());
-                writer.newLine();
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < generator.getNumberOfVectors(); i++) {
-                    int j = 0;
-                    int index = permutations[i][j];
-                    while (!(data.getVector()[index/loader.getVectorSize()] && data.getVector()[index%loader.getVectorSize()])) {
-                        index = permutations[i][j];
-                        j++;
-                    }
-                    if (i != 0)
-                        builder.append(" ");
-                    j++;
-                    builder.append(j);
-                }
-                writer.write(builder.toString());
-                writer.newLine();
+    }
+
+    @Override
+    protected void createMinhash(StringBuilder builder, AbstractVectorData data, int[][] permutations) {
+        BooleanVectorData d = (BooleanVectorData)data;
+        for (int i = 0; i < generator.getNumberOfVectors(); i++) {
+            int j = 0;
+            int index = permutations[i][j];
+            while (!(d.getVector()[index/loader.getVectorSize()] && d.getVector()[index%loader.getVectorSize()])) {
+                index = permutations[i][j];
+                j++;
             }
-            writer.newLine();
-            writer.close();
-        }catch (IOException e){
-            throw new MinhashException("Data of created minhash could not be written to file", e);
-        }catch (PermutationException e) {
-            throw new MinhashException("Error loading permutation", e);
+            if (i != 0)
+                builder.append(" ");
+            j++;
+            builder.append(j);
         }
-        return path;
     }
 }

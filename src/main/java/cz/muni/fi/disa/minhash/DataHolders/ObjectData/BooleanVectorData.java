@@ -3,13 +3,12 @@ package cz.muni.fi.disa.minhash.DataHolders.ObjectData;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class BooleanVectorData {
+public class BooleanVectorData extends AbstractVectorData{
     private boolean[] vector;
-    private String id;
 
     public BooleanVectorData(boolean[] vector, String id){
+        super(id);
         this.vector = vector;
-        this.id = id;
     }
 
     public boolean[] getVector() {
@@ -18,14 +17,6 @@ public class BooleanVectorData {
 
     public void setVector(boolean[] vector) {
         this.vector = vector;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     @Override
