@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 public class PairingMinhashCreator implements MinhashCreator{
 
     public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MinhashCreator creator = new PairingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), 128);
+        MinhashCreator creator = new PairingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), 2048);
         creator.createMinhashes();
     }
 

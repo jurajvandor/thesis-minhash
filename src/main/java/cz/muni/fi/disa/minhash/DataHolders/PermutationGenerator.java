@@ -77,7 +77,8 @@ public class PermutationGenerator {
      * @return new permutations also written to file
      */
     public int[][] createPermutations() throws PermutationException{
-        int [][] matrix = new int[numberOfVectors][sizeOfVector];
+        int cutSize = sizeOfVector > 10000 ? 10000 : sizeOfVector;
+        int [][] matrix = new int[numberOfVectors][cutSize];
         for (int i = 0; i < numberOfVectors; i++){
             List<Integer> list = new ArrayList<>();
             for (int j = 0; j < sizeOfVector; j++){
@@ -86,7 +87,7 @@ public class PermutationGenerator {
             Collections.shuffle(list);
             // since java cant convert to primitive array and we need that shuffle we have to use List
             // time complexity of this code doesn't matter anyway so we just convert to int array manually
-            for (int j = 0; j < sizeOfVector; j++)
+            for (int j = 0; j < cutSize; j++)
                 matrix[i][j] = list.get(j);
         }
         try {
@@ -94,7 +95,7 @@ public class PermutationGenerator {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
             for (int i = 0; i < numberOfVectors; i++){
                 StringBuilder s = new StringBuilder();
-                for (int j = 0; j < sizeOfVector; j++){
+                for (int j = 0; j < cutSize; j++){
                     if (j != 0)
                         s.append(" ");
                     s.append(matrix[i][j]);
@@ -110,14 +111,15 @@ public class PermutationGenerator {
     }
 
     private int[] parseLine(String line) throws PermutationException{
-        int[] vector = new int[sizeOfVector];
+        int cutSize = sizeOfVector > 10000 ? 10000 : sizeOfVector;
+        int[] vector = new int[cutSize];
         String[] split = line.split(" ");
         int i = 0;
         for (String value : split) {
             vector[i] = Integer.parseInt(value);
             i++;
         }
-        if (i != sizeOfVector){
+        if (i != cutSize){
             throw new PermutationException("data for permutation with" + numberOfVectors + " vectors of size "
                     + sizeOfVector + " contains permutation vector of different size");
         }
