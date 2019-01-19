@@ -39,7 +39,6 @@ public class FloatVectorLoader extends AbstractVectorLoader {
 
         @Override
         public FloatVectorData next() {
-            this.nextCalled = true;
             float[] vector = new float[vectorSize];
             String id = nextLineId.split(" ")[2];
             String[] split = nextLineData.split(delimiter);

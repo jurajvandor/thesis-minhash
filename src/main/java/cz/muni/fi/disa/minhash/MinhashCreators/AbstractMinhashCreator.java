@@ -47,7 +47,6 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
             OutputStream out = Files.newOutputStream(Paths.get(path));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
             int[][] permutations = generator.loadPermutations();
-            loader.resetLoader();
             for (AbstractVectorData data : loader) {
                 writer.write("#objectKey messif.objects.keys.AbstractObjectKey " + data.getId());
                 writer.newLine();
@@ -62,8 +61,6 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
             throw new MinhashException("Data of created minhash could not be written to file", e);
         }catch (PermutationException e) {
             throw new MinhashException("Error loading permutation", e);
-        }catch (VectorLoaderException e){
-            throw new MinhashException("Error resetting loader", e);
         }
         return path;
     }

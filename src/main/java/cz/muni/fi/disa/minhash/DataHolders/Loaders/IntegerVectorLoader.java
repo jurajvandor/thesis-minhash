@@ -39,7 +39,6 @@ public class IntegerVectorLoader extends AbstractVectorLoader {
 
         @Override
         public IntegerVectorData next() {
-            this.nextCalled = true;
             int[] vector = new int[vectorSize];
             String id = nextLineId.split(" ")[2];
             String[] split = nextLineData.split(delimiter);

@@ -35,7 +35,8 @@ public class ExperimentsUtils {
 
     public static void checkMinhashLengthsAndQuerySizes(AbstractMinhashCreator creator, QueryExecutor reference,
                                                         String resultingCsvPath, List<String> queries, boolean motion){
-        for (int i = 1; i < 17;i++){
+        System.out.println("starting evaluation");
+        for (int i = 1; i < 33;i++){
             creator.setMinhashVectorSize(i*128);
             try {
                 System.out.println("creating minhash " + i*128);
@@ -50,7 +51,7 @@ public class ExperimentsUtils {
                 checkQuerySizes(evaluator, resultingCsvPath + i*128, queries, motion,10);
                 System.out.println("-k=20");
                 checkQuerySizes(evaluator, resultingCsvPath + i*128, queries, motion,20);
-            }catch (MinhashException| VectorLoaderException e){
+            }catch (MinhashException | VectorLoaderException e){
                 e.printStackTrace();
             }
         }

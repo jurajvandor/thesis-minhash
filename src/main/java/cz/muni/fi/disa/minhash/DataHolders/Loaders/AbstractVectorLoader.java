@@ -35,7 +35,7 @@ public abstract class AbstractVectorLoader implements Iterable<AbstractVectorDat
     public void resetLoader() throws VectorLoaderException{
         File file = new File(getPath());
         if (!file.exists()) {
-            return;
+            throw new VectorLoaderException("file " + path + " does not exist");
         }
         try {
             InputStream in = new FileInputStream(file);
@@ -46,14 +46,14 @@ public abstract class AbstractVectorLoader implements Iterable<AbstractVectorDat
     }
 
     abstract class CustomIterator implements Iterator<AbstractVectorData>{
-        protected boolean hasNext = true;
+        protected boolean hasNext;
         protected String nextLineId;
         protected String nextLineData;
         protected AbstractVectorLoader loader;
-        protected boolean nextCalled = false;
 
         CustomIterator(AbstractVectorLoader loader) {
             this.loader = loader;
+            this.hasNext = true;
             setNextLine();
         }
 
@@ -81,8 +81,6 @@ public abstract class AbstractVectorLoader implements Iterable<AbstractVectorDat
     public List<?> loadAllVectorsToList(){
         if (cache != null)
             return cache;
-        if (iterator.nextCalled)
-            return null;
         LinkedList<AbstractVectorData> list = new LinkedList<>();
         for (AbstractVectorData data : this) {
             list.add(data);
@@ -104,6 +102,13 @@ public abstract class AbstractVectorLoader implements Iterable<AbstractVectorDat
 
     @Override
     public Iterator<AbstractVectorData> iterator() {
+        try {
+            resetLoader();
+        } catch (VectorLoaderException e){
+            e.printStackTrace();
+        }
+        iterator.hasNext = true;
+        iterator.setNextLine();
         return iterator;
     }
 }

@@ -70,7 +70,6 @@ public class MovementDataVectorsLoader extends AbstractVectorLoader{
 
         @Override
         public MovementData next() {
-            this.nextCalled = true;
             String id = nextLineId.split(" ")[2];
             MovementData result = new MovementData(nextDataNumberOfFrames, id);
             for (int i = 0; i < nextDataNumberOfFrames; i++) {

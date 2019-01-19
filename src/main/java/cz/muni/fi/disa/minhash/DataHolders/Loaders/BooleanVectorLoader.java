@@ -37,7 +37,6 @@ public class BooleanVectorLoader extends AbstractVectorLoader{
         }
         @Override
         public BooleanVectorData next() {
-            nextCalled = true;
             boolean[] vector = new boolean[vectorSize];
             String id = nextLineId.split(" ")[2];
             String[] split = nextLineData.split(delimiter);
