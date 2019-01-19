@@ -29,6 +29,10 @@ public abstract class AbstractVectorLoader implements Iterable<AbstractVectorDat
         this.delimiter = delimiter;
         this.path = path;
         this.vectorSize = vectorSize;
+        resetLoader();
+    }
+
+    public void resetLoader() throws VectorLoaderException{
         File file = new File(getPath());
         if (!file.exists()) {
             return;

@@ -4,6 +4,7 @@ import cz.muni.fi.disa.minhash.DataHolders.Loaders.AbstractVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationException;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
+import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public abstract class AbstractMinhashCreator implements MinhashCreator{
     protected int minhashVectorSize;
@@ -45,6 +47,7 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
             OutputStream out = Files.newOutputStream(Paths.get(path));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
             int[][] permutations = generator.loadPermutations();
+            loader.resetLoader();
             for (AbstractVectorData data : loader) {
                 writer.write("#objectKey messif.objects.keys.AbstractObjectKey " + data.getId());
                 writer.newLine();
@@ -59,6 +62,8 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
             throw new MinhashException("Data of created minhash could not be written to file", e);
         }catch (PermutationException e) {
             throw new MinhashException("Error loading permutation", e);
+        }catch (VectorLoaderException e){
+            throw new MinhashException("Error resetting loader", e);
         }
         return path;
     }

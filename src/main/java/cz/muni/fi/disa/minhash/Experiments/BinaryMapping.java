@@ -7,7 +7,6 @@ import cz.muni.fi.disa.minhash.MinhashCreators.AbstractMinhashCreator;
 import cz.muni.fi.disa.minhash.MinhashCreators.BinaryMappingMinhashCreator;
 import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
 
-import java.io.File;
 
 public class BinaryMapping {
     public static void main(String[] args){
