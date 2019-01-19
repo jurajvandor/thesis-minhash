@@ -66,7 +66,7 @@ public class Evaluator {
         return new EvaluationResult(count, firstResult, secondResult);
     }
 
-    public EvaluationResult executeAndEvaluateMotion(int numberOfRequestedItems, String queryItemId){
+    public EvaluationMotionResult executeAndEvaluateMotion(int numberOfRequestedItems, String queryItemId){
         String cat = getCat(queryItemId);
         QueryResult firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
         QueryResult secondResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
