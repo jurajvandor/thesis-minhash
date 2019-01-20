@@ -3,7 +3,6 @@ package cz.muni.fi.disa.minhash.Experiments;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.BooleanVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.FloatVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.MovementDataVectorsLoader;
-import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 import cz.muni.fi.disa.minhash.MinhashCreators.*;
 import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
@@ -11,16 +10,6 @@ import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
 
 public class ExperimentScripts {
     public static void main(String[] args){
-//        try {
-//            for (int i = 1; i < 33; i++) {
-//                System.out.println(i * 128);
-//                PermutationGenerator generator = new PermutationGenerator(16777216, i * 128);
-//                generator.createPermutations();
-//                System.out.println();
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
         binaryMappingImg();
         pairingOfValuesImg();
         quantizationImg();
@@ -138,7 +127,7 @@ public class ExperimentScripts {
             for (int i = 1; i < 6; i++) {
                 creator.setCubeSize(i*10);
                 ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                        "results/quantization/" + i + "/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG);
+                        "results/quantization/" + i*10 + "/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG);
             }
         }catch (VectorLoaderException e) {
             e.printStackTrace();

@@ -62,21 +62,22 @@ public class ExperimentsUtils {
     public static void checkMinhashLengthsAndQuerySizes(AbstractMinhashCreator creator, QueryExecutor reference,
                                                         String resultingCsvPath, List<String> queries, EvaluationType motion){
         System.out.println("starting evaluation");
-        for (int i = 1; i < 33;i++){
-            creator.setMinhashVectorSize(i*128);
+        List<Integer> minhashSizes = Arrays.asList(64, 128, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2560, 3072, 3584, 4096);
+        for (int i : minhashSizes){
+            creator.setMinhashVectorSize(i);
             try {
-                System.out.println("creating minhash " + i*128);
+                System.out.println("creating minhash " + i);
                 String path = creator.createMinhashes();
-                System.out.println("minhash " + i*128 + " created");
-                Evaluator evaluator = new Evaluator(new MinhashQueryExecutor(new IntegerVectorLoader(path, " ", i*128)), reference);
+                System.out.println("minhash " + i + " created");
+                Evaluator evaluator = new Evaluator(new MinhashQueryExecutor(new IntegerVectorLoader(path, " ", i)), reference);
                 System.out.println("-k=1");
-                checkQuerySizes(evaluator, resultingCsvPath + i*128, queries, motion,1);
+                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,1);
                 System.out.println("-k=5");
-                checkQuerySizes(evaluator, resultingCsvPath + i*128, queries, motion,5);
+                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,5);
                 System.out.println("-k=10");
-                checkQuerySizes(evaluator, resultingCsvPath + i*128, queries, motion,10);
+                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,10);
                 System.out.println("-k=20");
-                checkQuerySizes(evaluator, resultingCsvPath + i*128, queries, motion,20);
+                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,20);
             }catch (MinhashException | VectorLoaderException e){
                 e.printStackTrace();
             }
