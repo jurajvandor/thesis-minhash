@@ -93,6 +93,9 @@ public class PermutationGenerator {
                 list.add(j);
             }
             Collections.shuffle(list);
+//            System.out.print(".");
+//            if (i%100 == 99)
+//                System.out.println();
             // since java cant convert to primitive array and we need that shuffle we have to use List
             // time complexity of this code doesn't matter anyway so we just convert to int array manually
             for (int j = 0; j < cutSize; j++)

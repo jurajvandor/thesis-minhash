@@ -66,9 +66,13 @@ public class Evaluator {
         return new EvaluationResult(count, firstResult, secondResult);
     }
 
-    public EvaluationMotionResult executeAndEvaluateMotion(int numberOfRequestedItems, String queryItemId){
+    public EvaluationMotionResult executeAndEvaluateMotion(int numberOfRequestedItems, String queryItemId, boolean ignorePngFirstQuery){
         String cat = getCat(queryItemId);
-        QueryResult firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
+        QueryResult firstResult;
+        if (ignorePngFirstQuery)
+            firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
+        else
+            firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId);
         QueryResult secondResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
         int count = 0;
         int catFirst = 0;
@@ -77,9 +81,11 @@ public class Evaluator {
             if (cat.equals(getCat(i.getId())))
                 catFirst++;
             for (QueryResultItem j : secondResult.getItems())
-                if (i.getId().equals(j.getId().replace(".png", ""))){
+                if (ignorePngFirstQuery) {
+                    if (i.getId().equals(j.getId().replace(".png", "")))
+                        count++;
+                }else if (i.getId().equals(j.getId()))
                     count++;
-                }
         }
         for (QueryResultItem j : secondResult.getItems())
             if (cat.equals(getCat(j.getId())))

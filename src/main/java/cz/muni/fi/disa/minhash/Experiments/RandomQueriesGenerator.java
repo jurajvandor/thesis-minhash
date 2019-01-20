@@ -11,7 +11,8 @@ import java.util.Random;
 public class RandomQueriesGenerator {
     public static void main(String[] args){
         try{
-            BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
+            BooleanVectorLoader loader = new BooleanVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
+//            BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             List<BooleanVectorData> l = loader.loadAllVectorsToList();
             List<String> ids = new ArrayList<>();
             Random rand = new Random();

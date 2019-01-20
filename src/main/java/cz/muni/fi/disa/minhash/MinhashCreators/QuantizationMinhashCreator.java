@@ -15,7 +15,7 @@ public class QuantizationMinhashCreator extends AbstractMinhashCreator{
     private float[] buckets;
 
     //max value of float descriptors is 36.6
-    public QuantizationMinhashCreator(FloatVectorLoader loader, int numberOfBuckets, int minhashVectorSize){
+    public QuantizationMinhashCreator(FloatVectorLoader loader, int minhashVectorSize, int numberOfBuckets){
         super(minhashVectorSize, new PermutationGenerator(numberOfBuckets * loader.getVectorSize(), minhashVectorSize), loader);
         setNumberOfBuckets(numberOfBuckets);
     }
