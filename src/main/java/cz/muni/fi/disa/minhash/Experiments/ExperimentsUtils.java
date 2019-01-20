@@ -10,12 +10,19 @@ import cz.muni.fi.disa.minhash.MinhashCreators.AbstractMinhashCreator;
 import cz.muni.fi.disa.minhash.MinhashCreators.MinhashException;
 import cz.muni.fi.disa.minhash.QueryExecutors.MinhashQueryExecutor;
 import cz.muni.fi.disa.minhash.QueryExecutors.QueryExecutor;
+import org.omg.CORBA.Environment;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ExperimentsUtils {
     public static final List<String> randomImageQueries100 = Arrays.asList(
@@ -60,7 +67,8 @@ public class ExperimentsUtils {
             "3251_120_360_386.png", "3414_83_981_219.png");
 
     public static void checkMinhashLengthsAndQuerySizes(AbstractMinhashCreator creator, QueryExecutor reference,
-                                                        String resultingCsvPath, List<String> queries, EvaluationType motion){
+                                                        String resultingCsvPath, List<String> queries, EvaluationType motion,
+                                                        ExtraInfoForCsv extraAppend){
         System.out.println("starting evaluation");
         List<Integer> minhashSizes = Arrays.asList(64, 128, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2560, 3072, 3584, 4096);
         for (int i : minhashSizes){
@@ -71,41 +79,21 @@ public class ExperimentsUtils {
                 System.out.println("minhash " + i + " created");
                 Evaluator evaluator = new Evaluator(new MinhashQueryExecutor(new IntegerVectorLoader(path, " ", i)), reference);
                 System.out.println("-k=1");
-                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,1);
+                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,1, extraAppend, i);
                 System.out.println("-k=5");
-                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,5);
+                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,5, extraAppend, i);
                 System.out.println("-k=10");
-                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,10);
+                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,10, extraAppend, i);
                 System.out.println("-k=20");
-                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,20);
+                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,20, extraAppend, i);
             }catch (MinhashException | VectorLoaderException e){
                 e.printStackTrace();
             }
         }
     }
 
-    public static void checkQuerySizes(Evaluator evaluator, String resultingCsvPath, List<String> queries, EvaluationType motion, int querySize){
-        AverageResult avg = new AverageResult(motion != EvaluationType.NO_MOTION);
-        if (motion == EvaluationType.MOTION) {
-            for (String id : queries) {
-                EvaluationMotionResult res = evaluator.executeAndEvaluateMotion(querySize, id, false);
-                avg.add(res);
-                System.out.print(".");
-            }
-        } else if (motion == EvaluationType.MOTION_IGNORE_PNG){
-            for (String id : queries) {
-                EvaluationMotionResult res = evaluator.executeAndEvaluateMotion(querySize, id, true);
-                avg.add(res);
-                System.out.print(".");
-            }
-        }else if (motion == EvaluationType.NO_MOTION){
-            for (String id : queries) {
-                EvaluationResult res = evaluator.executeAndEvaluate(querySize, id);
-                avg.add(res);
-                System.out.print(".");
-            }
-        }
-        System.out.println();
+    public static void checkQuerySizes(Evaluator evaluator, String resultingCsvPath, List<String> queries, EvaluationType motion,
+                                       int querySize, ExtraInfoForCsv extraAppend, int minhashSize){
         try {
             File f = new File(resultingCsvPath + "_" + querySize + ".csv");
             if (!f.getParentFile().exists() && !f.getParentFile().mkdirs()) {
@@ -115,10 +103,57 @@ public class ExperimentsUtils {
                 throw new IllegalStateException("Couldn't create file: " + f.getPath());
             }
             PrintWriter out = new PrintWriter(f);
+            out.println(EvaluationResult.getCsvHeader());
+            AverageResult avg = new AverageResult(motion != EvaluationType.NO_MOTION);
+            if (motion == EvaluationType.MOTION) {
+                for (String id : queries) {
+                    EvaluationMotionResult res = evaluator.executeAndEvaluateMotion(querySize, id, false);
+                    out.println(res);
+                    avg.add(res);
+                    System.out.print(".");
+                }
+            } else if (motion == EvaluationType.MOTION_IGNORE_PNG){
+                for (String id : queries) {
+                    EvaluationMotionResult res = evaluator.executeAndEvaluateMotion(querySize, id, true);
+                    out.println(res);
+                    avg.add(res);
+                    System.out.print(".");
+                }
+            }else if (motion == EvaluationType.NO_MOTION){
+                for (String id : queries) {
+                    EvaluationResult res = evaluator.executeAndEvaluate(querySize, id);
+                    out.println(res);
+                    avg.add(res);
+                    System.out.print(".");
+                }
+            }
             out.println(avg);
+            ExperimentsUtils.extraAppend(avg, new ExtraInfoForCsv(resultingCsvPath + "avg",
+                    "minhashSize,", Integer.toString(minhashSize)), querySize, 0);
+            if (extraAppend != null){
+                ExperimentsUtils.extraAppend(avg, extraAppend, querySize, minhashSize);
+            }
             out.close();
         }catch (IOException e){
             e.printStackTrace();
+        }
+        System.out.println();
+    }
+
+    public static void extraAppend(AverageResult averageResult, ExtraInfoForCsv extraInfoForCsv, int querySize, int minhashSize){
+        String p = extraInfoForCsv.getPath() + "_" + querySize;
+        if (minhashSize != 0)
+            p = p + "_" + minhashSize;
+        Path path = Paths.get(p + ".csv");
+        try {
+            if (!Files.exists(path)) {
+                Files.write(path, (extraInfoForCsv.getHeader() + "," + EvaluationResult.getCsvHeader() + System.lineSeparator()).getBytes(),
+                        StandardOpenOption.APPEND);
+            }
+            Files.write(path, (extraInfoForCsv.getData() + "," + averageResult.toString()+ System.lineSeparator()).getBytes(),
+                    StandardOpenOption.APPEND);
+        }catch (IOException e){
+                e.printStackTrace();
         }
     }
 }
