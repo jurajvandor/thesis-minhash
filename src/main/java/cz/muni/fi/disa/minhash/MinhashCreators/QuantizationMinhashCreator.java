@@ -4,13 +4,8 @@ import cz.muni.fi.disa.minhash.DataHolders.Loaders.FloatVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.FloatVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
-import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 public class QuantizationMinhashCreator extends AbstractMinhashCreator{
-    public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MinhashCreator creator = new QuantizationMinhashCreator(new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), 4, 2048);
-        creator.createMinhashes();
-    }
 
     private float[] buckets;
 

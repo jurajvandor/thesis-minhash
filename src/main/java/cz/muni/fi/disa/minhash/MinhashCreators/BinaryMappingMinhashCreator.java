@@ -8,11 +8,6 @@ import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 
 public class BinaryMappingMinhashCreator extends AbstractMinhashCreator{
 
-    public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        BinaryMappingMinhashCreator creator = new BinaryMappingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), 2048);
-        creator.createMinhashes();
-    }
-
     public BinaryMappingMinhashCreator(BooleanVectorLoader loader, int minhashVectorSize){
         super(minhashVectorSize, new PermutationGenerator(loader.getVectorSize(), minhashVectorSize), loader);
     }

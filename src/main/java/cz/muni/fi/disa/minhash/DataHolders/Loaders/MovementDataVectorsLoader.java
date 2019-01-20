@@ -1,6 +1,5 @@
 package cz.muni.fi.disa.minhash.DataHolders.Loaders;
 
-import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.Joint;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.MovementData;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
@@ -9,20 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MovementDataVectorsLoader extends AbstractVectorLoader{
-    //TODO delete test
-    public static void main(String[] args) throws Exception{
-        try {
-            MovementDataVectorsLoader loader = new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";");
-            List<MovementData> d = loader.loadAllVectorsToList();
-            for (MovementData data: d) {
-                System.out.append(data.getId());
-                System.out.append("\n");
-            }
-            System.out.print(d.size());
-        }catch (Exception e){
-            throw new Exception(e);
-        }
-    }
+
     public MovementDataVectorsLoader(String path, String delimiter) throws VectorLoaderException {
         super(path, delimiter, 0);
         this.iterator = new CustomIterator(this);

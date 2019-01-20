@@ -6,19 +6,6 @@ import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 import java.util.List;
 
 public class BooleanVectorLoader extends AbstractVectorLoader{
-    //TODO delete test
-    public static void main(String[] args) throws Exception{
-        try {
-            BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
-            List<BooleanVectorData> d = loader.loadAllVectorsToList();
-            for (BooleanVectorData data: d) {
-                System.out.append(data.toString());
-                System.out.append("\n");
-            }
-        }catch (Exception e){
-            throw new Exception(e);
-        }
-    }
 
     public BooleanVectorLoader(String path, String delimiter, int vectorSize) throws VectorLoaderException {
         super(path, delimiter, vectorSize);

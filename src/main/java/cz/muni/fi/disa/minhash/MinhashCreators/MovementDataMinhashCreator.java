@@ -5,13 +5,8 @@ import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.Joint;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.MovementData;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
-import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 public class MovementDataMinhashCreator extends AbstractMinhashCreator{
-    public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MovementDataMinhashCreator creator = new MovementDataMinhashCreator(new MovementDataVectorsLoader("data_files/objects-annotations-specific-coords_normPOS.data", ";"), 2048, 15);
-        creator.createMinhashes();
-    }
 
     private int cubeSize;
     private float stepSize;

@@ -4,7 +4,6 @@ import cz.muni.fi.disa.minhash.DataHolders.Loaders.AbstractVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationException;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
-import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,7 +11,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 public abstract class AbstractMinhashCreator implements MinhashCreator{
     protected int minhashVectorSize;

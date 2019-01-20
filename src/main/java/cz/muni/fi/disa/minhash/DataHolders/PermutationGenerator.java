@@ -1,7 +1,5 @@
 package cz.muni.fi.disa.minhash.DataHolders;
 
-
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,17 +16,6 @@ public class PermutationGenerator {
     public PermutationGenerator(int sizeOfVector, int numberOfVectors){
         this.sizeOfVector = sizeOfVector;
         this.numberOfVectors = numberOfVectors;
-    }
-
-    //TODO delete test
-    public static void main(String[] args) throws Exception{
-        PermutationGenerator g = new PermutationGenerator(20, 20);
-        try {
-            g.loadPermutations();
-        }
-        catch (Exception e){
-            throw new Exception(e);
-        }
     }
 
     public int getSizeOfVector() {

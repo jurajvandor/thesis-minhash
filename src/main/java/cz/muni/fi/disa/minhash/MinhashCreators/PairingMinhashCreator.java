@@ -4,15 +4,9 @@ import cz.muni.fi.disa.minhash.DataHolders.Loaders.BooleanVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
-import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 
 
 public class PairingMinhashCreator extends AbstractMinhashCreator{
-
-    public static void main(String[] args)throws VectorLoaderException, MinhashException {
-        MinhashCreator creator = new PairingMinhashCreator(new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096), 2048, true);
-        creator.createMinhashes();
-    }
 
     private boolean and;
 

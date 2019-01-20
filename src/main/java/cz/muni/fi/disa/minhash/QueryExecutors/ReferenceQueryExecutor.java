@@ -2,7 +2,6 @@ package cz.muni.fi.disa.minhash.QueryExecutors;
 
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.FloatVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.FloatVectorLoader;
-import javafx.util.Pair;
 
 import java.util.*;
 
@@ -10,20 +9,6 @@ public class ReferenceQueryExecutor implements QueryExecutor{
 
     private FloatVectorLoader loader;
     private List<FloatVectorData> data;
-
-    public static void main(String[] args) throws Exception{
-        try {
-            FloatVectorLoader loader = new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
-            ReferenceQueryExecutor executor = new ReferenceQueryExecutor(loader);
-            QueryResult result = executor.findSimilarItems(50, "0000000002");
-            for (QueryResultItem item : result.getItems())
-                System.out.println(item.getSimilarity() + " " + item.getId());
-            System.out.println("Time: " + result.getExecutionTime());
-        }catch (Exception e){
-            throw new Exception(e);
-        }
-    }
-
 
     public ReferenceQueryExecutor(FloatVectorLoader loader){
         this.loader = loader;
@@ -59,5 +44,4 @@ public class ReferenceQueryExecutor implements QueryExecutor{
         }
         return (float) Math.sqrt(sum);
     }
-
 }
