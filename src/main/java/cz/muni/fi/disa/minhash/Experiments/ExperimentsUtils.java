@@ -79,13 +79,13 @@ public class ExperimentsUtils {
                 System.out.println("minhash " + i + " created");
                 Evaluator evaluator = new Evaluator(new MinhashQueryExecutor(new IntegerVectorLoader(path, " ", i)), reference);
                 System.out.println("-k=1");
-                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,1, extraAppend, i);
+                checkQuerySizes(evaluator, resultingCsvPath, queries, motion,1, extraAppend, i);
                 System.out.println("-k=5");
-                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,5, extraAppend, i);
+                checkQuerySizes(evaluator, resultingCsvPath, queries, motion,5, extraAppend, i);
                 System.out.println("-k=10");
-                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,10, extraAppend, i);
+                checkQuerySizes(evaluator, resultingCsvPath, queries, motion,10, extraAppend, i);
                 System.out.println("-k=20");
-                checkQuerySizes(evaluator, resultingCsvPath + i, queries, motion,20, extraAppend, i);
+                checkQuerySizes(evaluator, resultingCsvPath, queries, motion,20, extraAppend, i);
             }catch (MinhashException | VectorLoaderException e){
                 e.printStackTrace();
             }
@@ -95,7 +95,7 @@ public class ExperimentsUtils {
     public static void checkQuerySizes(Evaluator evaluator, String resultingCsvPath, List<String> queries, EvaluationType motion,
                                        int querySize, ExtraInfoForCsv extraAppend, int minhashSize){
         try {
-            File f = new File(resultingCsvPath + "_" + querySize + ".csv");
+            File f = new File(resultingCsvPath + minhashSize + "_" + querySize + ".csv");
             if (!f.getParentFile().exists() && !f.getParentFile().mkdirs()) {
                 throw new IllegalStateException("Couldn't create dir: " + f.getParent());
             }
@@ -129,7 +129,7 @@ public class ExperimentsUtils {
             }
             out.println(avg);
             ExperimentsUtils.extraAppend(avg, new ExtraInfoForCsv(resultingCsvPath + "avg",
-                    "minhashSize,", Integer.toString(minhashSize)), querySize, 0);
+                    "minhashSize", Integer.toString(minhashSize)), querySize, 0);
             if (extraAppend != null){
                 ExperimentsUtils.extraAppend(avg, extraAppend, querySize, minhashSize);
             }
@@ -147,8 +147,9 @@ public class ExperimentsUtils {
         Path path = Paths.get(p + ".csv");
         try {
             if (!Files.exists(path)) {
-                Files.write(path, (extraInfoForCsv.getHeader() + "," + EvaluationResult.getCsvHeader() + System.lineSeparator()).getBytes(),
-                        StandardOpenOption.APPEND);
+                Files.createFile(path);
+                Files.write(path, (extraInfoForCsv.getHeader() + "," + EvaluationResult.getCsvHeader() +
+                        System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
             }
             Files.write(path, (extraInfoForCsv.getData() + "," + averageResult.toString()+ System.lineSeparator()).getBytes(),
                     StandardOpenOption.APPEND);
