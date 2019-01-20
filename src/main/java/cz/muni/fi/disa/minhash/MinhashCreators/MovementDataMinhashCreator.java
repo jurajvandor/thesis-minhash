@@ -40,7 +40,7 @@ public class MovementDataMinhashCreator extends AbstractMinhashCreator{
             builder.append(j);
         }
     }
-
+//TODO add time and joint "cubes"
     //for now using +22 -22 borders
     private boolean[] constructBinaryVector(int cubeSize, MovementData data, float stepSize) {
         boolean[] result = new boolean[cubeSize*cubeSize*cubeSize];
