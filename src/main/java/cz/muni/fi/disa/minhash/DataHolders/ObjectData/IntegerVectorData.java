@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class IntegerVectorData extends AbstractVectorData{
     private int[] vector;
-    private String id;
 
     public IntegerVectorData(int[] vector, String id){
         super(id);

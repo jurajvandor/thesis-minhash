@@ -10,8 +10,8 @@ import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
 
 public class ExperimentScripts {
     public static void main(String[] args){
-//        binaryMappingImg();
-//        pairingOfValuesImg();
+        binaryMappingImg();
+        pairingOfValuesImg();
         quantizationImg();
         binaryMappingMotion();
         pairingOfValuesMotion();

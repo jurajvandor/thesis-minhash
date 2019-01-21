@@ -38,7 +38,7 @@ public class ReferenceQueryExecutor implements QueryExecutor{
 
     private float compare(float[] o1, float[] o2) {
         double sum = 0.0;
-        for(int i=0; i < o1.length; i++) {
+        for(int i = 0; i < o1.length; i++) {
             float diff = o1[i] - o2[i];
             sum = sum + diff*diff;
         }

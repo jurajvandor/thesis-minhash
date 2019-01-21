@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class FloatVectorData extends AbstractVectorData{
     private float[] vector;
-    private String id;
 
     public FloatVectorData(float[] vector, String id){
         super(id);
