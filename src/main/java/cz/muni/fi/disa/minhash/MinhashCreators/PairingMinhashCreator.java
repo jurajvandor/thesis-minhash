@@ -12,6 +12,7 @@ public class PairingMinhashCreator extends AbstractMinhashCreator{
 
     public PairingMinhashCreator(BooleanVectorLoader loader, int minhashVectorSize, boolean and){
         super(minhashVectorSize, new PermutationGenerator(loader.getVectorSize()*loader.getVectorSize(), minhashVectorSize), loader);
+        this.and = and;
     }
 
     public void setOperator(boolean and){
