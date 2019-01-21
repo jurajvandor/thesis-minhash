@@ -146,10 +146,10 @@ public class ExperimentsUtils {
         try {
             if (!Files.exists(path)) {
                 Files.createFile(path);
-                Files.write(path, (extraInfoForCsv.getHeader() + ",minhashSize," + EvaluationResult.getCsvHeader() +
+                Files.write(path, (extraInfoForCsv.getHeader() + "minhashSize," + EvaluationResult.getCsvHeader() +
                         System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
             }
-            Files.write(path, (extraInfoForCsv.getData() + "," + minhashSize + "," + averageResult.toString()+ System.lineSeparator()).getBytes(),
+            Files.write(path, (extraInfoForCsv.getData() + minhashSize + "," + averageResult.toString()+ System.lineSeparator()).getBytes(),
                     StandardOpenOption.APPEND);
         }catch (IOException e){
                 e.printStackTrace();

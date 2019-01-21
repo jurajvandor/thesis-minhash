@@ -61,7 +61,7 @@ public class ExperimentScripts {
                 AbstractMinhashCreator creator = new QuantizationMinhashCreator(loader, 4096, i);
                 ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                         "results/quantization/img/" + i + "/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION,
-                        new ExtraInfoForCsv("results/quantization/img/", "buckets", Integer.toString(i)));
+                        new ExtraInfoForCsv("results/quantization/img/", "buckets,", i + ","));
             }
         }catch (VectorLoaderException e) {
             e.printStackTrace();
@@ -111,7 +111,7 @@ public class ExperimentScripts {
                 creator.setNumberOfBuckets(i);
                 ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                         "results/quantization/motion/" + i + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION,
-                        new ExtraInfoForCsv("results/quantization/motion/", "buckets", Integer.toString(i)));
+                        new ExtraInfoForCsv("results/quantization/motion/", "buckets,", i + ","));
             }
         }catch (VectorLoaderException e) {
             e.printStackTrace();
@@ -132,7 +132,7 @@ public class ExperimentScripts {
                     creator.setCubeSize(i * 10);
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                             "results/cube/" + i * 10 + "_" + j + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
-                            new ExtraInfoForCsv("results/cube/", "oneDimensionalCuts,timeCubes", i*10 + "," + j));
+                            new ExtraInfoForCsv("results/cube/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","));
                 }
             }
         }catch (VectorLoaderException e) {
