@@ -113,6 +113,7 @@ public class ExperimentsUtils {
                     out.println(res);
                     avg.add(res);
                     System.out.print(".");
+                    System.out.flush();
                 }
             } else if (motion == EvaluationType.MOTION_IGNORE_PNG){
                 for (String id : queries) {
@@ -120,6 +121,7 @@ public class ExperimentsUtils {
                     out.println(res);
                     avg.add(res);
                     System.out.print(".");
+                    System.out.flush();
                 }
             }else if (motion == EvaluationType.NO_MOTION){
                 for (String id : queries) {
@@ -127,6 +129,7 @@ public class ExperimentsUtils {
                     out.println(res);
                     avg.add(res);
                     System.out.print(".");
+                    System.out.flush();
                 }
             }
             out.println(avg);
