@@ -67,7 +67,7 @@ public class ExperimentsUtils {
                                                         String resultingCsvPath, List<String> queries, EvaluationType motion,
                                                         ExtraInfoForCsv extraAppend){
         System.out.println("starting evaluation");
-        List<Integer> minhashSizes = Arrays.asList(64, 128, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2560, 3072, 3584, 4096);
+        List<Integer> minhashSizes = Arrays.asList(64, 128, 256, 512, 768, 1024, 1536, 2048, 2560, 3072, 3584, 4096);
         for (int i : minhashSizes){
             creator.setMinhashVectorSize(i);
             try {
