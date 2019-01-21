@@ -125,12 +125,15 @@ public class ExperimentScripts {
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
             MovementDataVectorsLoader motionLoader = new MovementDataVectorsLoader(
                     "data_files/objects-annotations-specific-coords_normPOS.data", ";");
-            MovementDataMinhashCreator creator = new MovementDataMinhashCreator(motionLoader, 4096, 10);
-            for (int i = 1; i < 6; i++) {
-                creator.setCubeSize(i*10);
-                ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                        "results/cube/" + i*10, ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
-                        new ExtraInfoForCsv("results/cube/", "oneDimensionalCuts", Integer.toString(i*10)));
+            MovementDataMinhashCreator creator = new MovementDataMinhashCreator(motionLoader, 4096, 10,
+                    1, JointSelection.ALL_IN_ONE);
+            for (int i = 1; i < 5; i++) {
+                for (int j = 1; j < 6; j++) {
+                    creator.setCubeSize(i * 10);
+                    ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
+                            "results/cube/" + i * 10 + "_" + j + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
+                            new ExtraInfoForCsv("results/cube/", "oneDimensionalCuts,timeCubes", i*10 + "," + j));
+                }
             }
         }catch (VectorLoaderException e) {
             e.printStackTrace();
