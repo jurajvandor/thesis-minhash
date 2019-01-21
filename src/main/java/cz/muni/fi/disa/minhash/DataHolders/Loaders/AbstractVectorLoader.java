@@ -102,6 +102,8 @@ public abstract class AbstractVectorLoader implements Iterable<AbstractVectorDat
 
     @Override
     public Iterator<AbstractVectorData> iterator() {
+        if (cache != null)
+            return cache.iterator();
         try {
             resetLoader();
         } catch (VectorLoaderException e){
