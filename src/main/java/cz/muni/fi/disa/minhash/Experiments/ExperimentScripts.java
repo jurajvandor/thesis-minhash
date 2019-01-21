@@ -7,6 +7,8 @@ import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 import cz.muni.fi.disa.minhash.MinhashCreators.*;
 import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
 
+import static cz.muni.fi.disa.minhash.Experiments.ExperimentsUtils.currentTime;
+
 
 public class ExperimentScripts {
     public static void main(String[] args){
@@ -21,7 +23,7 @@ public class ExperimentScripts {
 
     public static void binaryMappingImg(){
         try {
-            System.out.println("binary mapping img - loading reference");
+            System.out.println(currentTime() + " binary mapping img - loading reference");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             AbstractMinhashCreator creator = new BinaryMappingMinhashCreator(loader, 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
@@ -35,7 +37,7 @@ public class ExperimentScripts {
 
     public static void pairingOfValuesImg(){
         try {
-            System.out.println("pairing img - loading reference");
+            System.out.println(currentTime() + " pairing img - loading reference");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             AbstractMinhashCreator creator = new PairingMinhashCreator(loader, 4096, true);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
@@ -54,7 +56,7 @@ public class ExperimentScripts {
 
     public static void quantizationImg(){
         try {
-            System.out.println("quantization img - loading reference");
+            System.out.println(currentTime() + " quantization img - loading reference");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
             for (int i = 2; i < 9; i++) {
@@ -70,7 +72,7 @@ public class ExperimentScripts {
 
     public static void binaryMappingMotion(){
         try {
-            System.out.println("binary mapping motion- loading reference");
+            System.out.println(currentTime() + " binary mapping motion- loading reference");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
             AbstractMinhashCreator creator = new BinaryMappingMinhashCreator(loader, 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
@@ -84,7 +86,7 @@ public class ExperimentScripts {
 
     public static void pairingOfValuesMotion(){
         try {
-            System.out.println("pairing motion - loading reference");
+            System.out.println(currentTime() + " pairing motion - loading reference");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
             AbstractMinhashCreator creator = new PairingMinhashCreator(loader, 4096, true);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
@@ -103,7 +105,7 @@ public class ExperimentScripts {
 
     public static void quantizationMotion(){
         try {
-            System.out.println("quantization motion - loading reference");
+            System.out.println(currentTime() + " quantization motion - loading reference");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
             QuantizationMinhashCreator creator = new QuantizationMinhashCreator(loader, 4096, 2);
@@ -120,7 +122,7 @@ public class ExperimentScripts {
 
     public static void cubeFrom3dCoordsMotion(){
         try {
-            System.out.println("3d cube motion - loading reference");
+            System.out.println(currentTime() + " 3d cube motion - loading reference");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
             MovementDataVectorsLoader motionLoader = new MovementDataVectorsLoader(

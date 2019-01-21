@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,22 +72,22 @@ public class ExperimentsUtils {
         for (int i : minhashSizes){
             creator.setMinhashVectorSize(i);
             try {
-                System.out.println("creating minhash " + i);
+                System.out.println(currentTime() + " creating minhash " + i);
                 String path = creator.createMinhashes();
-                System.out.println("minhash " + path + " created");
+                System.out.println(currentTime() + " minhash " + path + " created");
                 MinhashQueryExecutor minhash = new MinhashQueryExecutor(new IntegerVectorLoader(path, " ", i));
                 if (motion == EvaluationType.NO_MOTION)
                     minhash.findSimilarItems(1, "0000000002");
                 else
                     minhash.findSimilarItems(1, "3136_103_280_78.png");
                 Evaluator evaluator = new Evaluator(minhash, reference);
-                System.out.println("-k=1");
+                System.out.println(currentTime() + " -k=1");
                 checkQuerySizes(evaluator, resultingCsvPath, queries, motion,1, extraAppend, i);
-                System.out.println("-k=5");
+                System.out.println(currentTime() + " -k=5");
                 checkQuerySizes(evaluator, resultingCsvPath, queries, motion,5, extraAppend, i);
-                System.out.println("-k=10");
+                System.out.println(currentTime() + " -k=10");
                 checkQuerySizes(evaluator, resultingCsvPath, queries, motion,10, extraAppend, i);
-                System.out.println("-k=20");
+                System.out.println(currentTime() + " -k=20");
                 checkQuerySizes(evaluator, resultingCsvPath, queries, motion,20, extraAppend, i);
             }catch (MinhashException | VectorLoaderException e){
                 e.printStackTrace();
@@ -133,6 +134,7 @@ public class ExperimentsUtils {
                 }
             }
             out.println(avg);
+            System.out.println(" " + avg);
             ExperimentsUtils.extraAppend(avg, new ExtraInfoForCsv(resultingCsvPath + "avg",
                     "", ""), querySize, minhashSize);
             if (extraAppend != null){
@@ -142,7 +144,6 @@ public class ExperimentsUtils {
         }catch (IOException e){
             e.printStackTrace();
         }
-        System.out.println();
     }
 
     public static void extraAppend(AverageResult averageResult, ExtraInfoForCsv extraInfoForCsv, int querySize, int minhashSize){
@@ -159,5 +160,10 @@ public class ExperimentsUtils {
         }catch (IOException e){
                 e.printStackTrace();
         }
+    }
+
+    public static String currentTime(){
+        LocalDateTime time = LocalDateTime.now();
+        return time.getHour() + ":" + time.getMinute() + ":" + time.getSecond();
     }
 }
