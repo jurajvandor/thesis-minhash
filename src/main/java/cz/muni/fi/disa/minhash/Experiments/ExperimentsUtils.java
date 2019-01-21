@@ -129,7 +129,7 @@ public class ExperimentsUtils {
             }
             out.println(avg);
             ExperimentsUtils.extraAppend(avg, new ExtraInfoForCsv(resultingCsvPath + "avg",
-                    "minhashSize", Integer.toString(minhashSize)), querySize, minhashSize);
+                    "", ""), querySize, minhashSize);
             if (extraAppend != null){
                 ExperimentsUtils.extraAppend(avg, extraAppend, querySize, minhashSize);
             }
@@ -149,7 +149,6 @@ public class ExperimentsUtils {
                 Files.write(path, (extraInfoForCsv.getHeader() + ",minhashSize," + EvaluationResult.getCsvHeader() +
                         System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
             }
-
             Files.write(path, (extraInfoForCsv.getData() + "," + minhashSize + "," + averageResult.toString()+ System.lineSeparator()).getBytes(),
                     StandardOpenOption.APPEND);
         }catch (IOException e){
