@@ -10,8 +10,8 @@ import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
 
 public class ExperimentScripts {
     public static void main(String[] args){
-        binaryMappingImg();
-        pairingOfValuesImg();
+//        binaryMappingImg();
+//        pairingOfValuesImg();
         quantizationImg();
         binaryMappingMotion();
         pairingOfValuesMotion();
@@ -57,7 +57,7 @@ public class ExperimentScripts {
             System.out.println("quantization img - loading reference");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
-            for (int i = 2; i < 9; i++) {
+            for (int i = 3; i < 9; i++) {
                 AbstractMinhashCreator creator = new QuantizationMinhashCreator(loader, 4096, i);
                 ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                         "results/quantization/img/" + i + "/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION,

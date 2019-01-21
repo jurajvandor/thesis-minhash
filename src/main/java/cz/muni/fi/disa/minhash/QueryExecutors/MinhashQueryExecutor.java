@@ -2,10 +2,24 @@ package cz.muni.fi.disa.minhash.QueryExecutors;
 
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.IntegerVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.IntegerVectorLoader;
+import cz.muni.fi.disa.minhash.Evaluation.EvaluationResult;
+import cz.muni.fi.disa.minhash.Experiments.ExperimentsUtils;
 
+import javax.annotation.processing.SupportedSourceVersion;
 import java.util.*;
 
 public class MinhashQueryExecutor implements QueryExecutor{
+    public static void main(String[] args){
+        try {
+            MinhashQueryExecutor ex = new MinhashQueryExecutor(new IntegerVectorLoader("data_files/features-images-profiset100K_minhash_2_2048_2.data", " ", 2048));
+            for (String s : ExperimentsUtils.randomImageQueries100){
+                QueryResult res = ex.findSimilarItems(20 , s);
+                System.out.println(res.getExecutionTime());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     private IntegerVectorLoader loader;
     private List<IntegerVectorData> data;
