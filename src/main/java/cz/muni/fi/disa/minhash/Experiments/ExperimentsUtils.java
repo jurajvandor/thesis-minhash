@@ -73,7 +73,7 @@ public class ExperimentsUtils {
             try {
                 System.out.println("creating minhash " + i);
                 String path = creator.createMinhashes();
-                System.out.println("minhash " + i + " created");
+                System.out.println("minhash " + path + " created");
                 MinhashQueryExecutor minhash = new MinhashQueryExecutor(new IntegerVectorLoader(path, " ", i));
                 if (motion == EvaluationType.NO_MOTION)
                     minhash.findSimilarItems(1, "0000000002");
