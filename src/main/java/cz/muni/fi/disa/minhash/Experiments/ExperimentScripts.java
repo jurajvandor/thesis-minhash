@@ -132,6 +132,7 @@ public class ExperimentScripts {
             for (int i = 1; i < 5; i++) {
                 for (int j = 1; j < 6; j++) {
                     creator.setCubeSize(i * 10);
+                    creator.setTimeCubes(j);
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                             "results/cube/" + i * 10 + "_" + j + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
                             new ExtraInfoForCsv("results/cube/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","));
