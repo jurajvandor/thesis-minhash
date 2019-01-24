@@ -164,6 +164,6 @@ public class ExperimentsUtils {
 
     public static String currentTime(){
         LocalDateTime time = LocalDateTime.now();
-        return time.getHour() + ":" + time.getMinute() + ":" + time.getSecond();
+        return String.format("%02d:%02d:%02d", time.getHour(), time.getMinute(), time.getSecond());
     }
 }
