@@ -12,13 +12,15 @@ import static cz.muni.fi.disa.minhash.Experiments.ExperimentsUtils.currentTime;
 
 public class ExperimentScripts {
     public static void main(String[] args){
-        binaryMappingImg();
-        pairingOfValuesImg();
-        quantizationImg();
-        binaryMappingMotion();
-        pairingOfValuesMotion();
-        quantizationMotion();
-        cubeFrom3dCoordsMotion();
+//        binaryMappingImg();
+//        pairingOfValuesImg();
+//        quantizationImg();
+//        binaryMappingMotion();
+//        pairingOfValuesMotion();
+//        quantizationMotion();
+//        cubeFrom3dCoordsMotion(JointSelection.ALL_IN_ONE);
+        cubeFrom3dCoordsMotion(JointSelection.LEFT_RIGHT_MID);
+        cubeFrom3dCoordsMotion(JointSelection.TORSO_AND_LIMBS);
     }
 
     public static void binaryMappingImg(){
@@ -120,7 +122,7 @@ public class ExperimentScripts {
         }
     }
 
-    public static void cubeFrom3dCoordsMotion(){
+    public static void cubeFrom3dCoordsMotion(JointSelection jointSelection){
         try {
             System.out.println(currentTime() + " 3d cube motion - loading reference");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
@@ -128,14 +130,14 @@ public class ExperimentScripts {
             MovementDataVectorsLoader motionLoader = new MovementDataVectorsLoader(
                     "data_files/objects-annotations-specific-coords_normPOS.data", ";");
             MovementDataMinhashCreator creator = new MovementDataMinhashCreator(motionLoader, 4096, 10,
-                    1, JointSelection.ALL_IN_ONE);
+                    1, jointSelection);
             for (int i = 1; i < 5; i++) {
                 for (int j = 1; j < 6; j++) {
                     creator.setCubeSize(i * 10);
                     creator.setTimeCubes(j);
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                            "results/cube/" + i * 10 + "_" + j + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
-                            new ExtraInfoForCsv("results/cube/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","));
+                            "results/cube/" + jointSelection + "/" + i * 10 + "_" + j + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
+                            new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","));
                 }
             }
         }catch (VectorLoaderException e) {
