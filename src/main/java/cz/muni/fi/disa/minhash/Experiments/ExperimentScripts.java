@@ -131,7 +131,7 @@ public class ExperimentScripts {
                     "data_files/objects-annotations-specific-coords_normPOS.data", ";");
             MovementDataMinhashCreator creator = new MovementDataMinhashCreator(motionLoader, 4096, 10,
                     1, jointSelection);
-            for (int i = 1; i < 5; i++) {
+            for (int i = 1; i < 4; i++) {
                 for (int j = 1; j < 6; j++) {
                     creator.setCubeSize(i * 10);
                     creator.setTimeCubes(j);
