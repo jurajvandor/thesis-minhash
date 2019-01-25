@@ -19,8 +19,9 @@ public class ExperimentScripts {
 //        pairingOfValuesMotion();
 //        quantizationMotion();
 //        cubeFrom3dCoordsMotion(JointSelection.ALL_IN_ONE);
-        cubeFrom3dCoordsMotion(JointSelection.LEFT_RIGHT_MID);
-        cubeFrom3dCoordsMotion(JointSelection.TORSO_AND_LIMBS);
+        cubeFrom3dCoordsMotion(JointSelection.LEFT_RIGHT_MID, 3);
+        cubeFrom3dCoordsMotion(JointSelection.TORSO_AND_LIMBS, 2);
+        cubeFrom3dCoordsMotion(JointSelection.TORSO_AND_LIMBS, 3);
     }
 
     public static void binaryMappingImg(){
@@ -122,7 +123,7 @@ public class ExperimentScripts {
         }
     }
 
-    public static void cubeFrom3dCoordsMotion(JointSelection jointSelection){
+    public static void cubeFrom3dCoordsMotion(JointSelection jointSelection, int i){
         try {
             System.out.println(currentTime() + " 3d cube motion - loading reference");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
@@ -131,7 +132,7 @@ public class ExperimentScripts {
                     "data_files/objects-annotations-specific-coords_normPOS.data", ";");
             MovementDataMinhashCreator creator = new MovementDataMinhashCreator(motionLoader, 4096, 10,
                     1, jointSelection);
-            for (int i = 1; i < 4; i++) {
+            //for (int i = 1; i < 4; i++) {
                 for (int j = 1; j < 6; j++) {
                     creator.setCubeSize(i * 10);
                     creator.setTimeCubes(j);
@@ -139,7 +140,7 @@ public class ExperimentScripts {
                             "results/cube/" + jointSelection + "/" + i * 10 + "_" + j + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
                             new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","));
                 }
-            }
+            //}
         }catch (VectorLoaderException e) {
             e.printStackTrace();
         }
