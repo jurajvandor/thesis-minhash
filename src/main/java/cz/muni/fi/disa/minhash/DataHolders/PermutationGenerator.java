@@ -72,7 +72,7 @@ public class PermutationGenerator {
      * @return new permutations also written to file
      */
     public int[][] createPermutations() throws PermutationException{
-        int cutSize = sizeOfVector > 10000 ? 10000 : sizeOfVector;
+        int cutSize = sizeOfVector > 20000 ? 20000 : sizeOfVector;
         int [][] matrix = new int[numberOfVectors][cutSize];
         for (int i = 0; i < numberOfVectors; i++){
             List<Integer> list = new ArrayList<>();
@@ -106,7 +106,7 @@ public class PermutationGenerator {
     }
 
     private int[] parseLine(String line) throws PermutationException{
-        int cutSize = sizeOfVector > 10000 ? 10000 : sizeOfVector;
+        int cutSize = sizeOfVector > 20000 ? 20000 : sizeOfVector;
         int[] vector = new int[cutSize];
         String[] split = line.split(" ");
         int i = 0;
