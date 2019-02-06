@@ -20,7 +20,7 @@ public class ReferenceQueryExecutor implements QueryExecutor{
         if (!query.isPresent())
             return null;
         QueryResult result = findSimilarItems(numberOfRequestedItems+1, query.get().getVector());
-        ((TreeSet)result.getItems()).pollLast();
+        ((TreeSet)result.getItems()).pollFirst();
         return result;
     }
 

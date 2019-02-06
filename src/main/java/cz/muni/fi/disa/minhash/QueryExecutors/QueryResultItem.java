@@ -44,8 +44,8 @@ public class QueryResultItem implements Comparable<QueryResultItem>{
 
     @Override
     public int compareTo(QueryResultItem o) {
-        if (similarity > o.similarity)
-            return 1;
-        return -1;
+        if (similarity == o.similarity)
+            return id.compareTo(o.id);
+        return Float.compare(similarity, o.similarity);
     }
 }

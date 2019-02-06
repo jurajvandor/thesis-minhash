@@ -12,15 +12,15 @@ import static cz.muni.fi.disa.minhash.Experiments.ExperimentsUtils.currentTime;
 
 public class ExperimentScripts {
     public static void main(String[] args){
-//        binaryMappingImg();
+        binaryMappingImg();
 //        pairingOfValuesImg();
 //        quantizationImg();
 //        binaryMappingMotion();
 //        pairingOfValuesMotion();
 //        quantizationMotion();
 //        cubeFrom3dCoordsMotion(JointSelection.ALL_IN_ONE);
-        cubeFrom3dCoordsMotion(JointSelection.LEFT_RIGHT_MID);
-        cubeFrom3dCoordsMotion(JointSelection.TORSO_AND_LIMBS);
+//        cubeFrom3dCoordsMotion(JointSelection.LEFT_RIGHT_MID);
+//        cubeFrom3dCoordsMotion(JointSelection.TORSO_AND_LIMBS);
     }
 
     public static void binaryMappingImg(){
