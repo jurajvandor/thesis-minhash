@@ -92,8 +92,17 @@ public class MovementDataMinhashCreator extends AbstractMinhashCreator{
             builder.append(j);
         }
     }
-//TODO add joint "cubes"
-    //for now using +22 -22 borders
+
+    @Override
+    protected void createBinarySignature(StringBuilder builder, AbstractVectorData data) {
+        boolean[] vector = constructBinaryVector((MovementData)data);
+        for (int i = 0; i < vector.length; i++){
+            if (i != 0)
+                builder.append(" ");
+            builder.append(vector[i] ? "1" : "0");
+        }
+    }
+
     private boolean[] constructBinaryVector(MovementData data) {
         boolean[] result = new boolean[cubeSize * cubeSize * cubeSize * jointGroups() * timeCubes];
         int timeStep = (data.getFrames().length + timeCubes - 1) / timeCubes;

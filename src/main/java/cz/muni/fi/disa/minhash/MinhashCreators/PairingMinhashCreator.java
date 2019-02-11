@@ -43,6 +43,11 @@ public class PairingMinhashCreator extends AbstractMinhashCreator{
         }
     }
 
+    @Override
+    protected void createBinarySignature(StringBuilder builder, AbstractVectorData data) {
+        throw new UnsupportedOperationException("not supported for pairing because of vector size");
+    }
+
     private boolean op(boolean i1, boolean i2){
         return and ? (i1 && i2) : (i1 || i2);
     }

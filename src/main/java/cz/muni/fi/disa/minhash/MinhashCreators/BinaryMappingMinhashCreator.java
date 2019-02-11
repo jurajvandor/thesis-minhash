@@ -30,4 +30,14 @@ public class BinaryMappingMinhashCreator extends AbstractMinhashCreator{
             builder.append(j);
         }
     }
+
+    @Override
+    protected void createBinarySignature(StringBuilder builder, AbstractVectorData data) {
+        boolean[] vector = ((BooleanVectorData)data).getVector();
+        for (int i = 0; i < vector.length; i++){
+            if (i != 0)
+                builder.append(" ");
+            builder.append(vector[i] ? "1" : "0");
+        }
+    }
 }

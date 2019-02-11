@@ -10,6 +10,7 @@ import cz.muni.fi.disa.minhash.MinhashCreators.AbstractMinhashCreator;
 import cz.muni.fi.disa.minhash.MinhashCreators.MinhashException;
 import cz.muni.fi.disa.minhash.QueryExecutors.MinhashQueryExecutor;
 import cz.muni.fi.disa.minhash.QueryExecutors.QueryExecutor;
+import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,32 +65,45 @@ public class ExperimentsUtils {
             "3353_65_460_462.png", "3141_114_1801_178.png", "3300_29_4433_378.png", "3253_101_1335_56.png",
             "3251_120_360_386.png", "3414_83_981_219.png");
 
-    public static void checkMinhashLengthsAndQuerySizes(AbstractMinhashCreator creator, QueryExecutor reference,
+    public static void checkMinhashLengthsAndQuerySizes(AbstractMinhashCreator creator, ReferenceQueryExecutor reference,
                                                         String resultingCsvPath, List<String> queries, EvaluationType motion,
-                                                        ExtraInfoForCsv extraAppend){
+                                                        ExtraInfoForCsv extraAppend, boolean binarySignatures, boolean minhashes){
         System.out.println("starting evaluation");
-        List<Integer> minhashSizes = Arrays.asList(64,128,256,512,1024);
-        for (int i : minhashSizes){
-            creator.setMinhashVectorSize(i);
+        if (minhashes) {
+            List<Integer> minhashSizes = Arrays.asList(64, 128, 256, 512, 1024, 2048);
+            for (int i : minhashSizes) {
+                creator.setMinhashVectorSize(i);
+                try {
+                    System.out.println(currentTime() + " creating minhash " + i);
+                    String path = creator.createMinhashes();
+                    System.out.println(currentTime() + " minhash " + path + " created");
+                    MinhashQueryExecutor minhash = new MinhashQueryExecutor(new IntegerVectorLoader(path, " ", i));
+                    if (motion == EvaluationType.NO_MOTION)
+                        minhash.findSimilarItems(1, "0000000002");
+                    else
+                        minhash.findSimilarItems(1, "3136_103_280_78.png");
+                    Evaluator evaluator = new Evaluator(minhash, reference);
+                    System.out.println(currentTime() + " -k=1");
+                    checkQuerySizes(evaluator, resultingCsvPath, queries, motion, 1, extraAppend, i);
+                    System.out.println(currentTime() + " -k=5");
+                    checkQuerySizes(evaluator, resultingCsvPath, queries, motion, 5, extraAppend, i);
+                    System.out.println(currentTime() + " -k=10");
+                    checkQuerySizes(evaluator, resultingCsvPath, queries, motion, 10, extraAppend, i);
+                    System.out.println(currentTime() + " -k=20");
+                    checkQuerySizes(evaluator, resultingCsvPath, queries, motion, 20, extraAppend, i);
+                } catch (MinhashException | VectorLoaderException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (binarySignatures){
+            System.out.println(currentTime() + " -binary signature");
             try {
-                System.out.println(currentTime() + " creating minhash " + i);
-                String path = creator.createMinhashes();
-                System.out.println(currentTime() + " minhash " + path + " created");
-                MinhashQueryExecutor minhash = new MinhashQueryExecutor(new IntegerVectorLoader(path, " ", i));
-                if (motion == EvaluationType.NO_MOTION)
-                    minhash.findSimilarItems(1, "0000000002");
-                else
-                    minhash.findSimilarItems(1, "3136_103_280_78.png");
-                Evaluator evaluator = new Evaluator(minhash, reference);
-                System.out.println(currentTime() + " -k=1");
-                checkQuerySizes(evaluator, resultingCsvPath, queries, motion,1, extraAppend, i);
-                System.out.println(currentTime() + " -k=5");
-                checkQuerySizes(evaluator, resultingCsvPath, queries, motion,5, extraAppend, i);
-                System.out.println(currentTime() + " -k=10");
-                checkQuerySizes(evaluator, resultingCsvPath, queries, motion,10, extraAppend, i);
-                System.out.println(currentTime() + " -k=20");
-                checkQuerySizes(evaluator, resultingCsvPath, queries, motion,20, extraAppend, i);
-            }catch (MinhashException | VectorLoaderException e){
+                String path = creator.createBinarySignatures();
+                //new executor
+                //new evaluator
+                //chceck query sizes
+            } catch (MinhashException e){
                 e.printStackTrace();
             }
         }
@@ -126,7 +140,7 @@ public class ExperimentsUtils {
                 }
             }else if (motion == EvaluationType.NO_MOTION){
                 for (String id : queries) {
-                    EvaluationResult res = evaluator.executeAndEvaluate(querySize, id);
+                    EvaluationResult res = evaluator.executeAndEvaluate(ReferenceImgResultsCache.get(querySize, id), querySize, id);
                     out.println(res);
                     avg.add(res);
                     System.out.print(".");

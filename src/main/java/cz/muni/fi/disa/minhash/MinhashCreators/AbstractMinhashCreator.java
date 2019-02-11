@@ -36,6 +36,8 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
 
     protected abstract void createMinhash(StringBuilder builder, AbstractVectorData data, int[][] permutations);
 
+    protected abstract void createBinarySignature(StringBuilder builder, AbstractVectorData data);
+
     /**
      * This will overwrite existing minhash of same vector size for this data file
      */
@@ -59,6 +61,28 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
             throw new MinhashException("Data of created minhash could not be written to file", e);
         }catch (PermutationException e) {
             throw new MinhashException("Error loading permutation", e);
+        }
+        return path;
+    }
+
+    public String createBinarySignatures() throws MinhashException{
+        String path = getPath();
+        path.replace("minhash", "bin_sig");
+        try {
+            OutputStream out = Files.newOutputStream(Paths.get(path));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+            for (AbstractVectorData data : loader) {
+                writer.write("#objectKey messif.objects.keys.AbstractObjectKey " + data.getId());
+                writer.newLine();
+                StringBuilder builder = new StringBuilder();
+                createBinarySignature(builder, data);
+                writer.write(builder.toString());
+                writer.newLine();
+            }
+            writer.newLine();
+            writer.close();
+        }catch (IOException e){
+            throw new MinhashException("Data of created minhash could not be written to file", e);
         }
         return path;
     }

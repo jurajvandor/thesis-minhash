@@ -12,6 +12,11 @@ public class Evaluator {
         this.second = second;
     }
 
+    public Evaluator(QueryExecutor first) {
+        this.first = first;
+        this.second = null;
+    }
+
     public QueryExecutor getFirst() {
         return first;
     }
@@ -24,13 +29,15 @@ public class Evaluator {
         return second;
     }
 
-    public void setSecond(QueryExecutor second) {
-        this.second = second;
+    public EvaluationResult executeAndEvaluate(int numberOfRequestedItems, String queryItemId) {
+        if (second == null)
+            throw new NullPointerException("second executor is null");
+        QueryResult secondResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
+        return executeAndEvaluate(secondResult, numberOfRequestedItems, queryItemId);
     }
 
-    public EvaluationResult executeAndEvaluate(int numberOfRequestedItems, String queryItemId){
+    public EvaluationResult executeAndEvaluate(QueryResult secondResult, int numberOfRequestedItems, String queryItemId){
         QueryResult firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId);
-        QueryResult secondResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
         int count = 0;
         for (QueryResultItem i : firstResult.getItems()){
             for (QueryResultItem j : secondResult.getItems())
@@ -41,14 +48,21 @@ public class Evaluator {
         return new EvaluationResult(count, firstResult, secondResult);
     }
 
-    public EvaluationMotionResult executeAndEvaluateMotion(int numberOfRequestedItems, String queryItemId, boolean ignorePngFirstQuery){
+    public EvaluationMotionResult executeAndEvaluateMotion(int numberOfRequestedItems, String queryItemId, boolean ignorePngFirstQuery) {
+        if (second == null)
+            throw new NullPointerException("second executor is null");
+        QueryResult secondResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
+        return executeAndEvaluateMotion(secondResult, numberOfRequestedItems, queryItemId, ignorePngFirstQuery);
+    }
+
+    public EvaluationMotionResult executeAndEvaluateMotion(QueryResult secondResult, int numberOfRequestedItems,
+                                                           String queryItemId, boolean ignorePngFirstQuery){
         String cat = getCat(queryItemId);
         QueryResult firstResult;
         if (ignorePngFirstQuery)
             firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId.replace(".png", ""));
         else
             firstResult = first.findSimilarItems(numberOfRequestedItems, queryItemId);
-        QueryResult secondResult = second.findSimilarItems(numberOfRequestedItems, queryItemId);
         int count = 0;
         int catFirst = 0;
         int catSecond = 0;

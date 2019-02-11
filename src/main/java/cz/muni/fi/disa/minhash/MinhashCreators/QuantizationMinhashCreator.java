@@ -2,6 +2,7 @@ package cz.muni.fi.disa.minhash.MinhashCreators;
 
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.FloatVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.FloatVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
 
@@ -45,6 +46,16 @@ public class QuantizationMinhashCreator extends AbstractMinhashCreator{
         }
     }
 
+    @Override
+    protected void createBinarySignature(StringBuilder builder, AbstractVectorData data) {
+        boolean[] vector = createDescriptor((FloatVectorData)data);
+        for (int i = 0; i < vector.length; i++){
+            if (i != 0)
+                builder.append(" ");
+            builder.append(vector[i] ? "1" : "0");
+        }
+    }
+
     private boolean[] createDescriptor(FloatVectorData data){
         int j = 0;
         boolean[] result = new boolean[data.getVector().length*(buckets.length)];
@@ -54,14 +65,6 @@ public class QuantizationMinhashCreator extends AbstractMinhashCreator{
                 j++;
             }
         }
-//        StringBuilder s = new StringBuilder();
-//        for (boolean v : result){
-//            if (v)
-//                s.append("1");
-//            else
-//                s.append("0");
-//        }
-//        System.out.println(s);
         return result;
     }
 }

@@ -12,13 +12,14 @@ import static cz.muni.fi.disa.minhash.Experiments.ExperimentsUtils.currentTime;
 
 public class ExperimentScripts {
     public static void main(String[] args){
+        ReferenceImgResultsCache.inflate();
         binaryMappingImg();
-//        pairingOfValuesImg();
-//        quantizationImg();
-//        binaryMappingMotion();
-//        pairingOfValuesMotion();
-//        quantizationMotion();
-//        cubeFrom3dCoordsMotion(JointSelection.ALL_IN_ONE);
+        pairingOfValuesImg();
+        quantizationImg();
+        binaryMappingMotion();
+        pairingOfValuesMotion();
+        quantizationMotion();
+        cubeFrom3dCoordsMotion(JointSelection.ALL_IN_ONE);
 //        cubeFrom3dCoordsMotion(JointSelection.LEFT_RIGHT_MID);
 //        cubeFrom3dCoordsMotion(JointSelection.TORSO_AND_LIMBS);
     }
@@ -28,10 +29,8 @@ public class ExperimentScripts {
             System.out.println(currentTime() + " binary mapping img - loading reference");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             AbstractMinhashCreator creator = new BinaryMappingMinhashCreator(loader, 4096);
-            ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
-                    new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096));
-            ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/binary/img/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION, null);
+            ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, null,
+                    "results/binary/img/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION, null, true, true);
         }catch (VectorLoaderException e){
             e.printStackTrace();
         }
@@ -42,15 +41,13 @@ public class ExperimentScripts {
             System.out.println(currentTime() + " pairing img - loading reference");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             AbstractMinhashCreator creator = new PairingMinhashCreator(loader, 4096, true);
-            ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
-                    new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096));
             System.out.println("and");
-            ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/pairing/and/img/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION, null);
+            ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, null,
+                    "results/pairing/and/img/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION, null, false, true);
             creator = new PairingMinhashCreator(loader, 4096, false);
             System.out.println("or");
-            ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/pairing/or/img/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION, null);
+            ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, null,
+                    "results/pairing/or/img/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION, null, false, true);
         }catch (VectorLoaderException e){
             e.printStackTrace();
         }
@@ -60,12 +57,11 @@ public class ExperimentScripts {
         try {
             System.out.println(currentTime() + " quantization img - loading reference");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
-            ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
             for (int i = 2; i < 9; i++) {
                 AbstractMinhashCreator creator = new QuantizationMinhashCreator(loader, 4096, i);
-                ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
+                ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, null,
                         "results/quantization/img/" + i + "/", ExperimentsUtils.randomImageQueries100, EvaluationType.NO_MOTION,
-                        new ExtraInfoForCsv("results/quantization/img/", "buckets,", i + ","));
+                        new ExtraInfoForCsv("results/quantization/img/", "buckets,", i + ","), true, true);
             }
         }catch (VectorLoaderException e) {
             e.printStackTrace();
@@ -80,7 +76,7 @@ public class ExperimentScripts {
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
                     new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096));
             ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/binary/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null);
+                    "results/binary/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null, true, true);
         }catch (VectorLoaderException e){
             e.printStackTrace();
         }
@@ -95,11 +91,11 @@ public class ExperimentScripts {
                     new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096));
             System.out.println("and");
             ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/pairing/and/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null);
+                    "results/pairing/and/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null, false, true);
             creator = new PairingMinhashCreator(loader, 4096, false);
             System.out.println("or");
             ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/pairing/or/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null);
+                    "results/pairing/or/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null, false, true);
         }catch (VectorLoaderException e){
             e.printStackTrace();
         }
@@ -115,7 +111,7 @@ public class ExperimentScripts {
                 creator.setNumberOfBuckets(i);
                 ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                         "results/quantization/motion/" + i + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION,
-                        new ExtraInfoForCsv("results/quantization/motion/", "buckets,", i + ","));
+                        new ExtraInfoForCsv("results/quantization/motion/", "buckets,", i + ","), true, true);
             }
         }catch (VectorLoaderException e) {
             e.printStackTrace();
@@ -137,7 +133,7 @@ public class ExperimentScripts {
                     creator.setTimeCubes(j);
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                             "results/cube/" + jointSelection + "/" + i * 10 + "_" + j + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
-                            new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","));
+                            new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","), true, false);
                 }
             }
         }catch (VectorLoaderException e) {
