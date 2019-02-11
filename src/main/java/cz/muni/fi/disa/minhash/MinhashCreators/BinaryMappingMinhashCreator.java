@@ -19,6 +19,11 @@ public class BinaryMappingMinhashCreator extends AbstractMinhashCreator{
     }
 
     @Override
+    public int getSignatureVectorSize() {
+        return loader.getVectorSize();
+    }
+
+    @Override
     protected void createMinhash(StringBuilder builder, AbstractVectorData data, int[][] permutations) {
         for (int i = 0; i < generator.getNumberOfVectors(); i++) {
             int j = 0;
@@ -32,12 +37,7 @@ public class BinaryMappingMinhashCreator extends AbstractMinhashCreator{
     }
 
     @Override
-    protected void createBinarySignature(StringBuilder builder, AbstractVectorData data) {
-        boolean[] vector = ((BooleanVectorData)data).getVector();
-        for (int i = 0; i < vector.length; i++){
-            if (i != 0)
-                builder.append(" ");
-            builder.append(vector[i] ? "1" : "0");
-        }
+    protected boolean[] createBinarySignature(AbstractVectorData data) {
+        return ((BooleanVectorData)data).getVector();
     }
 }

@@ -27,6 +27,11 @@ public class PairingMinhashCreator extends AbstractMinhashCreator{
     }
 
     @Override
+    public int getSignatureVectorSize() {
+        return loader.getVectorSize()*loader.getVectorSize();
+    }
+
+    @Override
     protected void createMinhash(StringBuilder builder, AbstractVectorData data, int[][] permutations) {
         BooleanVectorData d = (BooleanVectorData)data;
         for (int i = 0; i < generator.getNumberOfVectors(); i++) {
@@ -44,7 +49,7 @@ public class PairingMinhashCreator extends AbstractMinhashCreator{
     }
 
     @Override
-    protected void createBinarySignature(StringBuilder builder, AbstractVectorData data) {
+    protected boolean[] createBinarySignature(AbstractVectorData data) {
         throw new UnsupportedOperationException("not supported for pairing because of vector size");
     }
 

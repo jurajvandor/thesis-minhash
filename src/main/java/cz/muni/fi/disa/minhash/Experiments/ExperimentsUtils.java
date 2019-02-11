@@ -1,5 +1,6 @@
 package cz.muni.fi.disa.minhash.Experiments;
 
+import cz.muni.fi.disa.minhash.DataHolders.Loaders.BooleanVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.IntegerVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 import cz.muni.fi.disa.minhash.Evaluation.AverageResult;
@@ -8,8 +9,8 @@ import cz.muni.fi.disa.minhash.Evaluation.EvaluationResult;
 import cz.muni.fi.disa.minhash.Evaluation.Evaluator;
 import cz.muni.fi.disa.minhash.MinhashCreators.AbstractMinhashCreator;
 import cz.muni.fi.disa.minhash.MinhashCreators.MinhashException;
+import cz.muni.fi.disa.minhash.QueryExecutors.BinarySignatureQueryExecutor;
 import cz.muni.fi.disa.minhash.QueryExecutors.MinhashQueryExecutor;
-import cz.muni.fi.disa.minhash.QueryExecutors.QueryExecutor;
 import cz.muni.fi.disa.minhash.QueryExecutors.ReferenceQueryExecutor;
 
 import java.io.File;
@@ -83,34 +84,39 @@ public class ExperimentsUtils {
                     else
                         minhash.findSimilarItems(1, "3136_103_280_78.png");
                     Evaluator evaluator = new Evaluator(minhash, reference);
-                    System.out.println(currentTime() + " -k=1");
-                    checkQuerySizes(evaluator, resultingCsvPath, queries, motion, 1, extraAppend, i);
-                    System.out.println(currentTime() + " -k=5");
-                    checkQuerySizes(evaluator, resultingCsvPath, queries, motion, 5, extraAppend, i);
-                    System.out.println(currentTime() + " -k=10");
-                    checkQuerySizes(evaluator, resultingCsvPath, queries, motion, 10, extraAppend, i);
-                    System.out.println(currentTime() + " -k=20");
-                    checkQuerySizes(evaluator, resultingCsvPath, queries, motion, 20, extraAppend, i);
+                    useDifferentSizes(evaluator, resultingCsvPath, queries, motion, extraAppend, i);
                 } catch (MinhashException | VectorLoaderException e) {
                     e.printStackTrace();
                 }
             }
         }
         if (binarySignatures){
-            System.out.println(currentTime() + " -binary signature");
+            System.out.println(currentTime() + " binary signature");
             try {
                 String path = creator.createBinarySignatures();
-                //new executor
-                //new evaluator
-                //chceck query sizes
-            } catch (MinhashException e){
+                BinarySignatureQueryExecutor executor = new BinarySignatureQueryExecutor(new BooleanVectorLoader(path, " ", creator.getSignatureVectorSize()));
+                Evaluator evaluator = new Evaluator(executor, reference);
+                useDifferentSizes(evaluator, resultingCsvPath, queries, motion, extraAppend, 0);
+            } catch (MinhashException | VectorLoaderException e){
                 e.printStackTrace();
             }
         }
     }
 
-    public static void checkQuerySizes(Evaluator evaluator, String resultingCsvPath, List<String> queries, EvaluationType motion,
-                                       int querySize, ExtraInfoForCsv extraAppend, int minhashSize){
+    public static void useDifferentSizes(Evaluator evaluator, String resultingCsvPath, List<String> queries, EvaluationType motion,
+                                          ExtraInfoForCsv extraAppend, int minhashSize){
+        System.out.println(currentTime() + " -k=1");
+        evaluateSpecificQuerySize(evaluator, resultingCsvPath, queries, motion, 1, extraAppend, minhashSize);
+        System.out.println(currentTime() + " -k=5");
+        evaluateSpecificQuerySize(evaluator, resultingCsvPath, queries, motion, 5, extraAppend, minhashSize);
+        System.out.println(currentTime() + " -k=10");
+        evaluateSpecificQuerySize(evaluator, resultingCsvPath, queries, motion, 10, extraAppend, minhashSize);
+        System.out.println(currentTime() + " -k=20");
+        evaluateSpecificQuerySize(evaluator, resultingCsvPath, queries, motion, 20, extraAppend, minhashSize);
+    }
+
+    public static void evaluateSpecificQuerySize(Evaluator evaluator, String resultingCsvPath, List<String> queries, EvaluationType motion,
+                                                 int querySize, ExtraInfoForCsv extraAppend, int minhashSize){
         try {
             File f = new File(resultingCsvPath + minhashSize + "_" + querySize + ".csv");
             if (!f.getParentFile().exists() && !f.getParentFile().mkdirs()) {
@@ -149,10 +155,10 @@ public class ExperimentsUtils {
             }
             out.println(avg);
             System.out.println(" " + avg);
-            ExperimentsUtils.extraAppend(avg, new ExtraInfoForCsv(resultingCsvPath + "avg",
+            ExperimentsUtils.extraCsvAppend(avg, new ExtraInfoForCsv(resultingCsvPath + "avg",
                     "", ""), querySize, minhashSize);
             if (extraAppend != null){
-                ExperimentsUtils.extraAppend(avg, extraAppend, querySize, minhashSize);
+                ExperimentsUtils.extraCsvAppend(avg, extraAppend, querySize, minhashSize);
             }
             out.close();
         }catch (IOException e){
@@ -160,7 +166,7 @@ public class ExperimentsUtils {
         }
     }
 
-    public static void extraAppend(AverageResult averageResult, ExtraInfoForCsv extraInfoForCsv, int querySize, int minhashSize){
+    public static void extraCsvAppend(AverageResult averageResult, ExtraInfoForCsv extraInfoForCsv, int querySize, int minhashSize){
         String p = extraInfoForCsv.getPath() + querySize;
         Path path = Paths.get(p + ".csv");
         try {

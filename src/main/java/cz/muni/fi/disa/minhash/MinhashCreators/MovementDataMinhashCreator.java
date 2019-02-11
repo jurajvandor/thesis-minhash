@@ -80,8 +80,13 @@ public class MovementDataMinhashCreator extends AbstractMinhashCreator{
     }
 
     @Override
+    public int getSignatureVectorSize() {
+        return timeCubes*jointGroups()*cubeSize*cubeSize*cubeSize;
+    }
+
+    @Override
     protected void createMinhash(StringBuilder builder, AbstractVectorData data, int[][] permutations) {
-        boolean[] minhashInput = constructBinaryVector((MovementData)data);
+        boolean[] minhashInput = createBinarySignature((MovementData)data);
         for (int i = 0; i < generator.getNumberOfVectors(); i++) {
             int j = 0;
             while (!minhashInput[permutations[i][j]])
@@ -93,25 +98,16 @@ public class MovementDataMinhashCreator extends AbstractMinhashCreator{
         }
     }
 
-    @Override
-    protected void createBinarySignature(StringBuilder builder, AbstractVectorData data) {
-        boolean[] vector = constructBinaryVector((MovementData)data);
-        for (int i = 0; i < vector.length; i++){
-            if (i != 0)
-                builder.append(" ");
-            builder.append(vector[i] ? "1" : "0");
-        }
-    }
-
-    private boolean[] constructBinaryVector(MovementData data) {
+    protected boolean[] createBinarySignature(AbstractVectorData data) {
+        MovementData movementData = (MovementData)data;
         boolean[] result = new boolean[cubeSize * cubeSize * cubeSize * jointGroups() * timeCubes];
-        int timeStep = (data.getFrames().length + timeCubes - 1) / timeCubes;
+        int timeStep = (movementData.getFrames().length + timeCubes - 1) / timeCubes;
         int offsetStep = cubeSize * cubeSize * cubeSize * jointGroups();
         int offset = 0;
         if (jointSelection == JointSelection.ALL_IN_ONE) {
-            for (int i = 0; i < data.getFrames().length; i++) {
+            for (int i = 0; i < movementData.getFrames().length; i++) {
                 for (int j = 0; j < MovementData.N_OF_JOINTS; j++) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset] = true;
                 }
@@ -121,19 +117,19 @@ public class MovementDataMinhashCreator extends AbstractMinhashCreator{
         }
         if (jointSelection == JointSelection.LEFT_RIGHT_MID){
             int jointOffsetStep = cubeSize * cubeSize * cubeSize;
-            for (int i = 0; i < data.getFrames().length; i++) {
+            for (int i = 0; i < movementData.getFrames().length; i++) {
                 for (int j : LEFT) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset] = true;
                 }
                 for (int j : RIGHT) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset + jointOffsetStep] = true;
                 }
                 for (int j : MID) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset + jointOffsetStep + jointOffsetStep] = true;
                 }
@@ -143,29 +139,29 @@ public class MovementDataMinhashCreator extends AbstractMinhashCreator{
         }
         if (jointSelection == JointSelection.TORSO_AND_LIMBS){
             int jointOffsetStep = cubeSize * cubeSize * cubeSize;
-            for (int i = 0; i < data.getFrames().length; i++) {
+            for (int i = 0; i < movementData.getFrames().length; i++) {
                 for (int j : LEFT_HAND) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset] = true;
                 }
                 for (int j : RIGHT_HAND) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset + jointOffsetStep] = true;
                 }
                 for (int j : MID) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset + jointOffsetStep*2] = true;
                 }
                 for (int j : LEFT_LEG) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset + jointOffsetStep*3] = true;
                 }
                 for (int j : RIGHT_LEG) {
-                    Joint joint = data.getFrames()[i][j];
+                    Joint joint = movementData.getFrames()[i][j];
                     int index = (int) ((joint.getX() + 22) / stepSize) + cubeSize * ((int) ((joint.getY() + 22) / stepSize) + cubeSize * (int) ((joint.getZ() + 22) / stepSize));
                     result[index + offset + jointOffsetStep*4] = true;
                 }

@@ -2,6 +2,7 @@ package cz.muni.fi.disa.minhash.MinhashCreators;
 
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.AbstractVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.ObjectData.AbstractVectorData;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationException;
 import cz.muni.fi.disa.minhash.DataHolders.PermutationGenerator;
 
@@ -34,9 +35,20 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
 
     protected abstract String getPath();
 
+    public abstract int getSignatureVectorSize();
+
     protected abstract void createMinhash(StringBuilder builder, AbstractVectorData data, int[][] permutations);
 
-    protected abstract void createBinarySignature(StringBuilder builder, AbstractVectorData data);
+    private void createBinarySignatureString(StringBuilder builder, AbstractVectorData data){
+        boolean[] vector = createBinarySignature(data);
+        for (int i = 0; i < vector.length; i++){
+            if (i != 0)
+                builder.append(" ");
+            builder.append(vector[i] ? "1" : "0");
+        }
+    }
+
+    protected abstract boolean[] createBinarySignature(AbstractVectorData data);
 
     /**
      * This will overwrite existing minhash of same vector size for this data file
@@ -75,7 +87,7 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
                 writer.write("#objectKey messif.objects.keys.AbstractObjectKey " + data.getId());
                 writer.newLine();
                 StringBuilder builder = new StringBuilder();
-                createBinarySignature(builder, data);
+                createBinarySignatureString(builder, data);
                 writer.write(builder.toString());
                 writer.newLine();
             }
