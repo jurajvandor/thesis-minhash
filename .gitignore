@@ -24,6 +24,7 @@
 
 # Generated minhashes
 *_minhash_*.data
+*_bin_sig*.data
 
 # Large data file
 *features-images-profiset100K.data
