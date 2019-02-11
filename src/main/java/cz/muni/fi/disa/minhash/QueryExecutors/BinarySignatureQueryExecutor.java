@@ -39,11 +39,14 @@ public class BinarySignatureQueryExecutor implements QueryExecutor{
     }
 
     private float compare(boolean[] o1, boolean[] o2) {
-        int count = 0;
+        int union = 0;
+        int intersection = 0;
         for (int i = 0; i < o1.length; i++) {
-            if (o1[i] == o2[i])
-                count++;
+            if (o1[i] || o2[i])
+                union++;
+            if (o1[i] && o2[i])
+                intersection++;
         }
-        return count/(float)o1.length;
+        return intersection/(float)union;
     }
 }
