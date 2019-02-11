@@ -35,6 +35,11 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
 
     protected abstract String getPath();
 
+    public String getSignaturePath(){
+        String path = getPath();
+        return path.replaceAll("(minhash_[1-4]_[0-9]{2,4})", "bin_sig");
+    }
+
     public abstract int getSignatureVectorSize();
 
     protected abstract void createMinhash(StringBuilder builder, AbstractVectorData data, int[][] permutations);
@@ -78,8 +83,7 @@ public abstract class AbstractMinhashCreator implements MinhashCreator{
     }
 
     public String createBinarySignatures() throws MinhashException{
-        String path = getPath();
-        path.replace("minhash", "bin_sig");
+        String path = getSignaturePath();
         try {
             OutputStream out = Files.newOutputStream(Paths.get(path));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
