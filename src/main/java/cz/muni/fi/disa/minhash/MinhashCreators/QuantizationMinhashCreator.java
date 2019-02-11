@@ -20,7 +20,7 @@ public class QuantizationMinhashCreator extends AbstractMinhashCreator{
         buckets = new float[numberOfBuckets];
         buckets[0] = (float)0.0;
         for(int i = 1; i < numberOfBuckets; i++){
-            buckets[i] = (float)Math.pow(36.6,(i/(double)numberOfBuckets)); //((float)36.6 / (float)numberOfBuckets)*i;
+            buckets[i] = (float)Math.pow(36.6,(i/(double)numberOfBuckets));
         }
     }
 
