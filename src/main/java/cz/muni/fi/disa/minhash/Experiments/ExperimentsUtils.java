@@ -113,6 +113,10 @@ public class ExperimentsUtils {
                 String path = creator.createBinarySignatures();
                 BinarySignatureQueryExecutor executor = new BinarySignatureQueryExecutor(new BooleanVectorLoader(path, " ", creator.getSignatureVectorSize()));
                 Evaluator evaluator = new Evaluator(executor, reference);
+                if (motion == EvaluationType.NO_MOTION)
+                    executor.findSimilarItems(1, "0000000002");
+                else
+                    executor.findSimilarItems(1, "3136_103_280_78.png");
                 useDifferentSizes(evaluator, resultingCsvPath, queries, motion, extraAppend, 0);
             } catch (MinhashException | VectorLoaderException e){
                 e.printStackTrace();
