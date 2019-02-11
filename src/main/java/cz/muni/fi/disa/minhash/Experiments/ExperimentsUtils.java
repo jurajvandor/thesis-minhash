@@ -2,6 +2,7 @@ package cz.muni.fi.disa.minhash.Experiments;
 
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.BooleanVectorLoader;
 import cz.muni.fi.disa.minhash.DataHolders.Loaders.IntegerVectorLoader;
+import cz.muni.fi.disa.minhash.DataHolders.ObjectData.BooleanVectorData;
 import cz.muni.fi.disa.minhash.DataHolders.VectorLoaderException;
 import cz.muni.fi.disa.minhash.Evaluation.AverageResult;
 import cz.muni.fi.disa.minhash.Evaluation.EvaluationMotionResult;
@@ -21,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,6 +67,21 @@ public class ExperimentsUtils {
             "3274_30_718_341.png", "3243_119_953_177.png", "3361_38_7778_285.png", "3152_125_2969_161.png",
             "3353_65_460_462.png", "3141_114_1801_178.png", "3300_29_4433_378.png", "3253_101_1335_56.png",
             "3251_120_360_386.png", "3414_83_981_219.png");
+
+    public static List<String> getAllMotionIds(){
+        try {
+            BooleanVectorLoader loader = new BooleanVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
+            List<BooleanVectorData> l = loader.loadAllVectorsToList();
+            List<String> ids = new ArrayList<>();
+            for (BooleanVectorData data : l){
+                ids.add(data.getId());
+            }
+            return ids;
+        }catch (VectorLoaderException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void checkMinhashLengthsAndQuerySizes(AbstractMinhashCreator creator, ReferenceQueryExecutor reference,
                                                         String resultingCsvPath, List<String> queries, EvaluationType motion,

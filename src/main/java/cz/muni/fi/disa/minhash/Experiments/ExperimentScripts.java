@@ -76,7 +76,7 @@ public class ExperimentScripts {
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
                     new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096));
             ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/binary/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null, true, true);
+                    "results/binary/motion/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION, null, true, true);
         }catch (VectorLoaderException e){
             e.printStackTrace();
         }
@@ -91,11 +91,11 @@ public class ExperimentScripts {
                     new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096));
             System.out.println("and");
             ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/pairing/and/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null, false, true);
+                    "results/pairing/and/motion/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION, null, false, true);
             creator = new PairingMinhashCreator(loader, 4096, false);
             System.out.println("or");
             ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/pairing/or/motion/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION, null, false, true);
+                    "results/pairing/or/motion/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION, null, false, true);
         }catch (VectorLoaderException e){
             e.printStackTrace();
         }
@@ -110,7 +110,7 @@ public class ExperimentScripts {
             for (int i = 2; i < 9; i++) {
                 creator.setNumberOfBuckets(i);
                 ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                        "results/quantization/motion/" + i + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION,
+                        "results/quantization/motion/" + i + "/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION,
                         new ExtraInfoForCsv("results/quantization/motion/", "buckets,", i + ","), true, true);
             }
         }catch (VectorLoaderException e) {
@@ -132,7 +132,7 @@ public class ExperimentScripts {
                     creator.setCubeSize(i * 10);
                     creator.setTimeCubes(j);
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                            "results/cube/" + jointSelection + "/" + i * 10 + "_" + j + "/", ExperimentsUtils.randomMotionQueries100, EvaluationType.MOTION_IGNORE_PNG,
+                            "results/cube/" + jointSelection + "/" + i * 10 + "_" + j + "/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION_IGNORE_PNG,
                             new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","), true, false);
                 }
             }
