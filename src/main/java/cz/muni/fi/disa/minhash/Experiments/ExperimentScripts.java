@@ -131,9 +131,10 @@ public class ExperimentScripts {
                 for (int j = 1; j < 6; j++) {
                     creator.setCubeSize(i * 10);
                     creator.setTimeCubes(j);
+                    ExtraInfoForCsv csv = new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ",");
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                             "results/cube/" + jointSelection + "/" + i * 10 + "_" + j + "/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION_IGNORE_PNG,
-                            new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ","), true, false);
+                            csv, true, false);
                 }
             }
         }catch (VectorLoaderException e) {
