@@ -111,6 +111,7 @@ public class ExperimentsUtils {
             System.out.println(currentTime() + " binary signature");
             try {
                 String path = creator.createBinarySignatures();
+                System.out.println(currentTime() + " binary signature " + path + " created");
                 BinarySignatureQueryExecutor executor = new BinarySignatureQueryExecutor(new BooleanVectorLoader(path, " ", creator.getSignatureVectorSize()));
                 Evaluator evaluator = new Evaluator(executor, reference);
                 useDifferentSizes(evaluator, resultingCsvPath, queries, motion, extraAppend, 0);
