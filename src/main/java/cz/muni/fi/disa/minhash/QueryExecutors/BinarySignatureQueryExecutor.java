@@ -9,6 +9,17 @@ import java.util.TreeSet;
 
 public class BinarySignatureQueryExecutor implements QueryExecutor{
 
+    public static void main(String[] args){
+        try {
+            BinarySignatureQueryExecutor executor = new BinarySignatureQueryExecutor(
+                    new BooleanVectorLoader("data_files/features-images-profiset100K_bin_sig.data", " ", 4096));
+            QueryResult r = executor.findSimilarItems(1, "0000000002");
+            System.out.println(r.getExecutionTime());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private BooleanVectorLoader loader;
     private List<BooleanVectorData> data;
 
@@ -39,13 +50,11 @@ public class BinarySignatureQueryExecutor implements QueryExecutor{
     }
 
     private float compare(boolean[] o1, boolean[] o2) {
-        int union = 0;
         int intersection = 0;
-        for (int i = 0; i < o1.length; i++) {
-            if (o1[i] || o2[i])
-                union++;
-            if (o1[i] && o2[i])
-                intersection++;
+        int union = 0;
+        for (int i = 0; i < o1.length; i++){
+            intersection += o1[i] & o2[i] ? 1 : 0;
+            union += o1[i] | o2[i] ? 1 : 0;
         }
         return intersection/(float)union;
     }
