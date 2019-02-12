@@ -12,13 +12,13 @@ import static cz.muni.fi.disa.minhash.Experiments.ExperimentsUtils.currentTime;
 
 public class ExperimentScripts {
     public static void main(String[] args){
-        ReferenceImgResultsCache.inflate();
-        binaryMappingImg();
-        pairingOfValuesImg();
-        quantizationImg();
-        binaryMappingMotion();
-        pairingOfValuesMotion();
-        quantizationMotion();
+//        ReferenceImgResultsCache.inflate();
+//        binaryMappingImg();
+//        pairingOfValuesImg();
+//        quantizationImg();
+//        binaryMappingMotion();
+//        pairingOfValuesMotion();
+//        quantizationMotion();
         cubeFrom3dCoordsMotion(JointSelection.ALL_IN_ONE);
 //        cubeFrom3dCoordsMotion(JointSelection.LEFT_RIGHT_MID);
 //        cubeFrom3dCoordsMotion(JointSelection.TORSO_AND_LIMBS);
@@ -26,7 +26,7 @@ public class ExperimentScripts {
 
     public static void binaryMappingImg(){
         try {
-            System.out.println(currentTime() + " binary mapping img - loading reference");
+            System.out.println(currentTime() + " binary mapping img");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             AbstractMinhashCreator creator = new BinaryMappingMinhashCreator(loader, 4096);
             ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, null,
@@ -38,7 +38,7 @@ public class ExperimentScripts {
 
     public static void pairingOfValuesImg(){
         try {
-            System.out.println(currentTime() + " pairing img - loading reference");
+            System.out.println(currentTime() + " pairing img");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             AbstractMinhashCreator creator = new PairingMinhashCreator(loader, 4096, true);
             System.out.println("and");
@@ -55,7 +55,7 @@ public class ExperimentScripts {
 
     public static void quantizationImg(){
         try {
-            System.out.println(currentTime() + " quantization img - loading reference");
+            System.out.println(currentTime() + " quantization img");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/features-images-profiset100K.data", " ", 4096);
             for (int i = 2; i < 9; i++) {
                 AbstractMinhashCreator creator = new QuantizationMinhashCreator(loader, 4096, i);
@@ -70,7 +70,7 @@ public class ExperimentScripts {
 
     public static void binaryMappingMotion(){
         try {
-            System.out.println(currentTime() + " binary mapping motion- loading reference");
+            System.out.println(currentTime() + " binary mapping motion");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
             AbstractMinhashCreator creator = new BinaryMappingMinhashCreator(loader, 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
@@ -84,7 +84,7 @@ public class ExperimentScripts {
 
     public static void pairingOfValuesMotion(){
         try {
-            System.out.println(currentTime() + " pairing motion - loading reference");
+            System.out.println(currentTime() + " pairing motion");
             BooleanVectorLoader loader = new BooleanVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
             AbstractMinhashCreator creator = new PairingMinhashCreator(loader, 4096, true);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(
@@ -103,7 +103,7 @@ public class ExperimentScripts {
 
     public static void quantizationMotion(){
         try {
-            System.out.println(currentTime() + " quantization motion - loading reference");
+            System.out.println(currentTime() + " quantization motion");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
             QuantizationMinhashCreator creator = new QuantizationMinhashCreator(loader, 4096, 2);
@@ -120,20 +120,21 @@ public class ExperimentScripts {
 
     public static void cubeFrom3dCoordsMotion(JointSelection jointSelection){
         try {
-            System.out.println(currentTime() + " 3d cube motion - loading reference");
+            System.out.println(currentTime() + " 3d cube motion");
             FloatVectorLoader loader = new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
             ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
             MovementDataVectorsLoader motionLoader = new MovementDataVectorsLoader(
                     "data_files/objects-annotations-specific-coords_normPOS.data", ";");
             MovementDataMinhashCreator creator = new MovementDataMinhashCreator(motionLoader, 4096, 10,
                     1, jointSelection);
-            for (int i = 1; i < 4; i++) {
+            for (int i = 1; i < 8; i++) {
                 for (int j = 1; j < 6; j++) {
-                    creator.setCubeSize(i * 10);
+                    int cubeSize = i*5;
+                    creator.setCubeSize(cubeSize);
                     creator.setTimeCubes(j);
-                    ExtraInfoForCsv csv = new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", i*10 + "," + j + ",");
+                    ExtraInfoForCsv csv = new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", cubeSize + "," + j + ",");
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                            "results/cube/" + jointSelection + "/" + i * 10 + "_" + j + "/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION_IGNORE_PNG,
+                            "results/cube/" + jointSelection + "/" + cubeSize + "_" + j + "/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION_IGNORE_PNG,
                             csv, true, false);
                 }
             }
