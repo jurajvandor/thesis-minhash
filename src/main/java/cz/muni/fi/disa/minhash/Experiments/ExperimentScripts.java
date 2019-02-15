@@ -19,7 +19,6 @@ public class ExperimentScripts {
 //        binaryMappingMotion();
 //        pairingOfValuesMotion();
 //        quantizationMotion();
-        cubeFrom3dCoordsMotion3(JointSelection.ALL_IN_ONE);
         cubeFrom3dCoordsMotion2(JointSelection.ALL_IN_ONE);
         cubeFrom3dCoordsMotion(JointSelection.ALL_IN_ONE);
         cubeFrom3dCoordsMotion(JointSelection.LEFT_RIGHT_MID);
@@ -137,7 +136,7 @@ public class ExperimentScripts {
                     ExtraInfoForCsv csv = new ExtraInfoForCsv("results/cube_minhash/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", cubeSize + "," + j + ",");
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                             "results/cube/" + jointSelection + "/" + cubeSize + "_" + j + "/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION_IGNORE_PNG,
-                            csv, true, false);
+                            csv, false, true);
                 }
             }
         }catch (VectorLoaderException e) {
@@ -165,29 +164,6 @@ public class ExperimentScripts {
                             csv, true, false);
                 }
             }
-        }catch (VectorLoaderException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void cubeFrom3dCoordsMotion3(JointSelection jointSelection){
-        try {
-            System.out.println(currentTime() + " 3d cube motion");
-            FloatVectorLoader loader = new FloatVectorLoader("data_files/original-2folds_1-merged.data", ",", 4096);
-            ReferenceQueryExecutor referenceQueryExecutor = new ReferenceQueryExecutor(loader);
-            MovementDataVectorsLoader motionLoader = new MovementDataVectorsLoader(
-                    "data_files/objects-annotations-specific-coords_normPOS.data", ";");
-            MovementDataMinhashCreator creator = new MovementDataMinhashCreator(motionLoader, 4096, 10,
-                    1, jointSelection);
-            int j = 5;
-            int cubeSize = 35;
-            creator.setCubeSize(cubeSize);
-            creator.setTimeCubes(j);
-            ExtraInfoForCsv csv = new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", cubeSize + "," + j + ",");
-            ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
-                    "results/cube/" + jointSelection + "/" + cubeSize + "_" + j + "/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION_IGNORE_PNG,
-                    csv, true, false);
-
         }catch (VectorLoaderException e) {
             e.printStackTrace();
         }
