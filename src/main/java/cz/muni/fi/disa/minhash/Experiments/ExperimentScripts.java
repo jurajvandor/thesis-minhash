@@ -134,7 +134,7 @@ public class ExperimentScripts {
                     int cubeSize = i*5;
                     creator.setCubeSize(cubeSize);
                     creator.setTimeCubes(j);
-                    ExtraInfoForCsv csv = new ExtraInfoForCsv("results/cube/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", cubeSize + "," + j + ",");
+                    ExtraInfoForCsv csv = new ExtraInfoForCsv("results/cube_minhash/" + jointSelection + "/", "oneDimensionalCuts,timeCubes,", cubeSize + "," + j + ",");
                     ExperimentsUtils.checkMinhashLengthsAndQuerySizes(creator, referenceQueryExecutor,
                             "results/cube/" + jointSelection + "/" + cubeSize + "_" + j + "/", ExperimentsUtils.getAllMotionIds(), EvaluationType.MOTION_IGNORE_PNG,
                             csv, true, false);
