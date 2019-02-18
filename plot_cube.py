@@ -4,22 +4,28 @@ import pandas as pd
 import sys
 
 avgs = ['1.csv', '5.csv', '10.csv', '20.csv']
-cube_sizes = [10,20,30]
-time_cubes = [1,2,3,4,5]
-for avg in avgs:
+cube_sizes = [20]
+time_cubes = [5,6,7,8]
 
-    file_name = sys.argv[1] + avg
-
-    file_name_simple = file_name.replace('/', "-")
-
-    df = pd.read_csv(file_name)
-    for cube_size in cube_sizes:
-        plt.ylabel('number of same items')
-        plt.xlabel('minhash size')
-        df2 = df.loc[df['oneDimensionalCuts'] == cube_size]
-        for time_cube in time_cubes:
-            table = df2.loc[df['timeCubes'] == time_cube]
-            plt.plot(table['minhashSize'], table['SameItems'], label=str(time_cube))
-        plt.legend()
-        plt.savefig('results/cube/' + file_name_simple + '-' + str(cube_size) +'.png')
-        plt.clf()
+i = 1
+for cube_size in cube_sizes:
+    for avg in avgs:
+        plt.subplot(2, 2, i)
+        plt.tight_layout()
+        i += 1
+        plt.title(avg)
+        plt.ylabel('recall')
+        plt.xlabel('cube sizes')
+        file_name = sys.argv[1]
+        file_name_simple = file_name.replace('/', "-")
+        file_name += avg
+        df = pd.read_csv(file_name)
+        df = df.loc[df['oneDimensionalCuts'] == cube_size]
+        df = df.loc[df['minhashSize'] != 0]
+        for size in time_cubes:
+            minhash = df.loc[df['timeCubes'] == size]
+            plt.plot(minhash['minhashSize'], minhash['SameItems'], label=str(size))
+    plt.legend()
+    plt.savefig('results/' + file_name_simple + 'minhash-'+ str(cube_size) + '.png', dpi=800)
+    plt.clf()
+    i = 1

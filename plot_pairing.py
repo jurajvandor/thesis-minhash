@@ -19,4 +19,4 @@ for avg in avgs:
     df = pd.read_csv(file_name + 'or/' + sys.argv[2] + '/' + avg)
     plt.plot(df['minhashSize'], df['SameItems'], label='or')
     plt.legend()
-plt.savefig('results/' + file_name_simple + '.png')
+plt.savefig('results/' + file_name_simple + '.png', dpi=800)

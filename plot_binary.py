@@ -23,4 +23,4 @@ for avg in avgs:
     plt.plot([0,2048], [reference, reference], label='binary signature')
     plt.plot(minhash['minhashSize'], minhash['SameItems'], label='minhash')
     plt.legend()
-plt.savefig('results/' + file_name_simple + '.png')
+plt.savefig('results/' + file_name_simple + '.png', dpi=800)
