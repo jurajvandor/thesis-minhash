@@ -29,6 +29,7 @@
 # Large data file
 *features-images-profiset100K.data
 *objects-annotations-specific-coords_normPOS.data
+*original-2folds_1-merged.data
 
 # results
 results/*
