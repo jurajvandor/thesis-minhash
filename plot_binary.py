@@ -35,7 +35,7 @@ def plt_one():
         plt.tight_layout()
         plt.ylabel('presnosť (%)')
         plt.xlabel('veľkosť MinHashu')
-        plt.ylim(20, 50)
+        plt.ylim(70, 87)
         file_name = sys.argv[1]
         file_name_simple = file_name.replace('/', "-")
         file_name += avgs[i]
@@ -43,10 +43,10 @@ def plt_one():
         minhash = df.loc[df['minhashSize'] != 0]
         df = df.loc[df['minhashSize'] == 0]
         reference = df['SameItems'][6]/k[i]*100
-        plt.plot([0,2048], [reference, reference], 'C'+str(i), label=('bin, ' + names[i]))
-        plt.plot(minhash['minhashSize'], minhash['SameItems']/k[i]*100, 'C'+str(i), label=('MinHash, ' + names[i]))
+        #plt.plot([0,2048], [reference, reference],  label=('bin, ' + names[i]))
+        plt.plot(minhash['minhashSize'], minhash['SameItems']/k[i]*100,  label=(names[i]))
         plt.legend()
 
-    plt.savefig('results/' + file_name_simple + 'single.png', dpi=800)
+    plt.savefig('results/' + file_name_simple + 'single.png', dpi=400)
 
 plt_one()
